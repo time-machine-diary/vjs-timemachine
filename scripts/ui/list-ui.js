@@ -1,7 +1,9 @@
 class ListUI {
   constructor() {
     this.listViewContainer = document.getElementById('list-view-container');
+    this.prevList = document.getElementById('prev-list');
     this.list = document.getElementById('list');
+    this.nextList = document.getElementById('next-list');
     this.addEventListeners();
     this.moduleName = 'List UI';
     this.prevPullPoint = document.getElementById('prev-pull-point');
@@ -9,48 +11,97 @@ class ListUI {
   }
 
   addEventListeners() {
+    this.listViewContainer.addEventListener('touchstart', event => {
+      const unitPercent = 5;
+      const posX = event.touches[0].pageX;
+      const clientWidth = event.currentTarget.clientWidth;
+      const unitPosX = clientWidth * unitPercent / 100;
+      const isMovable = (posX >= 0 && posX <= unitPosX) || posX >= (clientWidth - unitPosX) && posX <= clientWidth;
+      this._listMovable(isMovable);
+    });
+
     this.listViewContainer.addEventListener('touchend', () => {
-      const targetPullPoint = this.prevPullPointActived ? this.prevPullPoint : this.nextPullPointActived ? this.nextPullPoint : null;
-      if(!targetPullPoint) {
+      // 현재 스크롤이 가장 오른쪽 (window.scroll.availWidth)이거나 가장 왼쪽 (listViewContainer.clientWidth)이라면 return;
+      if(this.listViewContainer.scrollLeft === window.scroll.availWidth || this.listViewContainer.scrollLeft === this.listViewContainer.clientWidth) {
         return;
       }
 
-      const pullPointBody = targetPullPoint.querySelector('.pull-point-body');
-      pullPointBody.style.height = '0px';
-      Array.from(targetPullPoint.children).forEach(element => {
-        if(!element.classList.contains('transparents-bg')) {
-          element.classList.add('transparents-bg');
-        }
-      });
-      this.prevPullPointActived = false;
-      this.nextPullPointActived = false;
-      this.adjustAnimation();
-    });
-    this.listViewContainer.addEventListener('scroll', event => {
-      const container = event.currentTarget;
-      if(container.scrollTop < - 40) {
-        this.prevPullPointActived = true;
-        Array.from(this.prevPullPoint.children).forEach(element => {
-          if(element.classList.contains('transparents-bg')) {
-            element.classList.remove('transparents-bg');
-          }
-        });
-
-        const pullPointBody = this.prevPullPoint.querySelector('.pull-point-body');
-        pullPointBody.style.height = -(container.scrollTop + 40) + 'px';
-
-      } else if (container.scrollHeight + 40 < container.scrollTop + container.clientHeight) {
-        this.nextPullPointActived = true;
-        Array.from(this.nextPullPoint.children).forEach(element => {
-          if(element.classList.contains('transparents-bg')) {
-            element.classList.remove('transparents-bg');
-          }
-        });
-
-        const pullPointBody = this.nextPullPoint.querySelector('.pull-point-body');
-        pullPointBody.style.height = (container.scrollTop + container.clientHeight - 40) - container.scrollHeight + 'px';
+      this._listMovable(false);
+  
+      const availWidth = window.screen.availWidth;
+      const stdWidth = availWidth / 3;
+  
+      if(availWidth - stdWidth >= this.listViewContainer.scrollLeft) {
+        // this.showSpinner(`${window.stdDateUtil.getPrevYearMonthStr()}...`);
+        // this.showSpinner();
+        this.adjustPrevListAnimation();
+  
+        // setTimeout(() => {
+        //   this.hideSpinner();
+        // }, 500);
+      } else if (availWidth + stdWidth <= this.listViewContainer.scrollLeft) {
+        // this.showSpinner(`${window.stdDateUtil.getNextYearMonthStr()}...`);
+        // this.showSpinner();
+        this.adjustNextListAnimation();
+  
+        // setTimeout(() => {
+        //   this.hideSpinner();
+        // }, 500);
+      } else {
+        this.adjustSnapBackListAnimation();
       }
     });
+
+    // this.listViewContainer.addEventListener('touchend', () => {
+    //   const targetPullPoint = this.prevPullPointActived ? this.prevPullPoint : this.nextPullPointActived ? this.nextPullPoint : null;
+    //   if(!targetPullPoint) {
+    //     return;
+    //   }
+
+    //   const pullPointBody = targetPullPoint.querySelector('.pull-point-body');
+    //   pullPointBody.style.height = '0px';
+    //   Array.from(targetPullPoint.children).forEach(element => {
+    //     if(!element.classList.contains('transparents-bg')) {
+    //       element.classList.add('transparents-bg');
+    //     }
+    //   });
+    //   this.prevPullPointActived = false;
+    //   this.nextPullPointActived = false;
+    //   this.adjustAnimation();
+    // });
+    // this.listViewContainer.addEventListener('scroll', event => {
+    //   const container = event.currentTarget;
+    //   if(container.scrollTop < - 40) {
+    //     this.prevPullPointActived = true;
+    //     Array.from(this.prevPullPoint.children).forEach(element => {
+    //       if(element.classList.contains('transparents-bg')) {
+    //         element.classList.remove('transparents-bg');
+    //       }
+    //     });
+
+    //     const pullPointBody = this.prevPullPoint.querySelector('.pull-point-body');
+    //     pullPointBody.style.height = -(container.scrollTop + 40) + 'px';
+
+    //   } else if (container.scrollHeight + 40 < container.scrollTop + container.clientHeight) {
+    //     this.nextPullPointActived = true;
+    //     Array.from(this.nextPullPoint.children).forEach(element => {
+    //       if(element.classList.contains('transparents-bg')) {
+    //         element.classList.remove('transparents-bg');
+    //       }
+    //     });
+
+    //     const pullPointBody = this.nextPullPoint.querySelector('.pull-point-body');
+    //     pullPointBody.style.height = (container.scrollTop + container.clientHeight - 40) - container.scrollHeight + 'px';
+    //   }
+    // });
+  }
+
+  _listMovable(isMovable) {
+    if(isMovable) {
+      this.list.style.overflowY = 'hidden';
+    } else {
+      this.list.style.overflowY = 'auto';
+    }
   }
 
   clearList(container) {
@@ -60,21 +111,121 @@ class ListUI {
     });
   }
 
-  renderList() {
-    this.clearList(this.list);
-    this.renderDateBlocks(window.stdDateUtil.getLastDate(), window.stdDateUtil.getFirstDay(), this.list);
+  renderLists() {
+    this.renderList();
+    this.renderPrevList();
+    this.renderNextList();
+    this.adjustScrollToCenter();
   }
 
-  renderDateBlocks(lastDate, firstDayIndex, target) {
+  renderList() {
+    this.clearList(this.list);
+    this.renderDateBlocks(window.stdDateUtil.getLastDate(), window.stdDateUtil.getFirstDay(), this.list, window.stdDateUtil.date);
+    this.list.classList.add('list');
+  }
+
+  renderPrevList() {
+    const prevDateUtil = new DateUtil(window.stdDateUtil.date);
+    prevDateUtil.date.setMonth(prevDateUtil.date.getMonth() - 1);
+    this.prevDateUtil = prevDateUtil;
+    this.clearList(this.prevList);
+    this.renderDateBlocks(this.prevDateUtil.getLastDate(), this.prevDateUtil.getFirstDay(), this.prevList);
+    this.prevList.classList.add('list');
+  }
+
+  renderNextList() {
+    const nextDateUtil = new DateUtil(window.stdDateUtil.date);
+    nextDateUtil.date.setMonth(nextDateUtil.date.getMonth() + 1);
+    this.nextDateUtil = nextDateUtil;
+    this.clearList(this.nextList);
+    this.renderDateBlocks(this.nextDateUtil.getLastDate(), this.nextDateUtil.getFirstDay(), this.nextList);
+    this.nextList.classList.add('list');
+  }
+
+  renderDateBlocks(lastDate, firstDayIndex, target, dateObj) {
     for(let date = 1; date <= lastDate; date++) {
       const dateBlock = this.renderDateBlock(date);
+      if(dateObj) {
+        const currentDate = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${date}`;
+        const todayDate = new Date();
+        const isToday = currentDate === `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`;
+        if(isToday) {
+          dateBlock.classList.add('today');
+        }
+      }
+
       const dateSection = this.renderDateSection(date, firstDayIndex);
       const contentSection = this.renderContentSection(date);
       dateBlock.appendChild(dateSection);
       dateBlock.appendChild(contentSection);
       target.appendChild(dateBlock);
     }
+  }
 
+  adjustScrollToCenter() {
+    this.listViewContainer.scrollLeft = this.listViewContainer.clientWidth;
+  }
+
+  adjustPrevListAnimation() {
+    window.scroller.scrollAnimate(this.listViewContainer, {
+      axis: 'x',
+      to: 0,
+      duration: 15,
+      callback: () => {
+        this.switchPrevCurrent();        
+      }
+    });
+  }
+
+  adjustNextListAnimation() {
+    window.scroller.scrollAnimate(this.listViewContainer, {
+      axis: 'x',
+      to: this.listViewContainer.offsetWidth * 2,
+      duration: 15,
+      callback: () => {
+        this.switchNextCurrent();
+      }
+    });
+  }
+
+  adjustSnapBackListAnimation() {
+    window.scroller.scrollAnimate(this.listViewContainer, {
+      axis: 'x',
+      to: this.listViewContainer.offsetWidth,
+      duration: 15
+    });
+  }
+
+  switchPrevCurrent() {
+    this.nextList.remove();
+    this.list.setAttribute('id', 'next-list');
+    this.nextList = this.list;
+    this.prevList.setAttribute('id', 'list');
+    this.list = this.prevList;
+    this.nextDateUtil = window.stdDateUtil;
+    window.stdDateUtil = this.prevDateUtil;
+    this.prevList = document.createElement('div');
+    this.prevList.setAttribute('id', 'prev-list');
+    this.listViewContainer.insertBefore(this.prevList, this.listViewContainer.firstElementChild);
+    this.listViewContainer.scrollLeft = window.screen.availWidth;
+    this.renderPrevList();
+    this.fireCalendarChangeEvent();
+  }
+
+  switchNextCurrent() {
+    this.prevList.remove();
+    this.list.setAttribute('id', 'prev-list');
+    this.prevList = this.list;
+    this.nextList.setAttribute('id', 'list');
+    this.list = this.nextList;
+    this.prevDateUtil = window.stdDateUtil;
+    window.stdDateUtil = this.nextDateUtil;
+    this.nextList = document.createElement('div');
+    this.nextList.setAttribute('id', 'next-list');
+    this.listViewContainer.appendChild(this.nextList);
+    this.listViewContainer.scrollLeft = window.screen.availWidth;
+    this.renderNextList();
+    this.fireCalendarChangeEvent();
   }
 
   renderDateBlock(date) {
@@ -94,36 +245,10 @@ class ListUI {
       }));
     };
 
-    dateBlock.moveToTop = () => {
-      console.log('move to top 적용 여부 결정');
-      // this.listViewContainer.scrollTop = dateBlock.offsetTop - dateBlock.clientHeight;
-    };
-
-    dateBlock.addEventListener('click', event => {
-      window.currentDateUtil = window.stdDateUtil;
-      window.currentDateUtil.setDate(event.currentTarget.getAttribute('date'));
-      const fileName = `${window.currentDateUtil.getDateFileNameFormat()}.txt`;
-      if(dateBlock.hasAttribute('assigned')) {
-        document.dispatchEvent(new CustomEvent('show-content-editor', {
-          detail: {
-            fileName: fileName,
-            diary: event
-          }
-        }));
-      } else {
-        document.dispatchEvent(new CustomEvent('show-empty-editor', {
-          detail: {
-            fileName: fileName
-          }
-        }));
-      }
-    });
-
     dateBlock.addEventListener('touchstart', event => {
       const currentScrollTop = this.listViewContainer.scrollTop;
       event.currentTarget.timer = setTimeout(() => {
         if(currentScrollTop === this.listViewContainer.scrollTop && dateBlock.hasAttribute('assigned')) {
-          // this.showToastBtns(dateBlock.getAttribute('date'));
           this.showDeleteAlert(dateBlock.getAttribute('date'));
         }
       }, 500);
@@ -166,28 +291,27 @@ class ListUI {
         type: CONST.NATIVE_STYLE.BTN.CANCEL
       }]
     });
-
   }
 
   adjustAnimation() {
     let unitHeight = (document.querySelector('.list-item').clientHeight) * 2;
     if(this.listViewContainer.scrollTop < -unitHeight ) {
       // this.showSpinner(`${window.stdDateUtil.getPrevYearMonthStr()}...`);
-      this.showSpinner();
+      // this.showSpinner();
       window.stdDateUtil.date.setMonth(window.stdDateUtil.date.getMonth() - 1);
       setTimeout(() => {
-        this.renderList();
-        this.hideSpinner();
+        this.renderLists();
+        // this.hideSpinner();
         this.fireCalendarChangeEvent();
       }, 500);
 
     } else if (this.listViewContainer.scrollTop + this.listViewContainer.clientHeight > this.listViewContainer.scrollHeight + unitHeight) {
       // this.showSpinner(`${window.stdDateUtil.getNextYearMonthStr()}...`);
-      this.showSpinner();
+      // this.showSpinner();
       window.stdDateUtil.date.setMonth(window.stdDateUtil.date.getMonth() + 1);
       setTimeout(() => {
-        this.renderList();
-        this.hideSpinner();
+        this.renderLists();
+        // this.hideSpinner();
         this.fireCalendarChangeEvent();
       }, 500);
     }
@@ -240,6 +364,25 @@ class ListUI {
     content.appendChild(this.getContentField(date));
     content.appendChild(this.getAddBtn(date));
     contentSection.appendChild(content);
+    contentSection.addEventListener('click', event => {
+      const dateBlock = event.currentTarget.parentElement;
+      window.currentDateUtil = window.stdDateUtil;
+      window.currentDateUtil.setDate(dateBlock.getAttribute('date'));
+      const fileName = `${window.currentDateUtil.getDateFileNameFormat()}.txt`;
+      if(dateBlock.hasAttribute('assigned')) {
+        document.dispatchEvent(new CustomEvent('show-content-editor', {
+          detail: {
+            fileName: fileName
+          }
+        }));
+      } else {
+        document.dispatchEvent(new CustomEvent('show-empty-editor', {
+          detail: {
+            fileName: fileName
+          }
+        }));
+      }
+    });
 
     return contentSection;
   }
@@ -318,11 +461,11 @@ class ListUI {
     window.scroller.scrollAnimate(this.listViewContainer, {
       axis: 'y',
       to: 0,
-      duration: 15
+      duration: 10
     });
   }
 
-  moveTopByDate() {
-    this.getListByDate(window.currentDateUtil.getDate()).moveToTop();
-  }
+  // moveTopByDate() {
+  //   this.getListByDate(window.currentDateUtil.getDate()).moveToTop();
+  // }
 }

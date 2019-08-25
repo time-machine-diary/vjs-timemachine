@@ -107,7 +107,7 @@ class ViewerUI {
     if(!this.emptyViewer) {
       this.emptyViewer = document.createElement('img');
       this.emptyViewer.setAttribute('id', 'empty-viewer');
-      this.emptyViewer.setAttribute('src', './assets/images/empty-editor.svg');
+      this.emptyViewer.setAttribute('src', './assets/images/gray-plus.svg');
       this.emptyViewer.addEventListener('click', () => {
         document.dispatchEvent(new CustomEvent('show-empty-editor', {
           detail: {

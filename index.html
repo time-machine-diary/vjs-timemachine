@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <!-- <meta name="viewport" content="width=device-width, user-scalable=no"> -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width, height=device-height, viewport-fit=cover">
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Time machine</title>
   </head>
@@ -49,21 +51,23 @@
 
         <!-- List View -->
         <div id="list-view" page="list">
-          <div id="prev-pull-point" class="pull-point">
+          <!--div id="prev-pull-point" class="pull-point">
             <div class="pull-point-top transparents-bg"></div>
             <div class="pull-point-body transparents-bg"></div>
             <div class="pull-point-bottom transparents-bg"></div>
-          </div>
+          </div-->
           
           <div id="list-view-container">
-            <list id="list"></list>
+            <div id="prev-list" class="list"></div>
+            <div id="list" class="list"></div>
+            <div id="next-list" class="list"></div>
           </div>
 
-          <div id="next-pull-point" class="pull-point">
+          <!--div id="next-pull-point" class="pull-point">
             <div class="pull-point-top transparents-bg"></div>
             <div class="pull-point-body transparents-bg"></div>
             <div class="pull-point-bottom transparents-bg"></div>
-          </div>
+          </div-->
         </div>
         <!-- List View -->
 
@@ -135,9 +139,9 @@
                   <span id="app-version"></span>
                 </div>
 
-                <div class="option-item activable" id="contact-us">
+                <!--div class="option-item activable" id="contact-us">
                   <span class="title">Contact us</span>
-                </div>
+                </div-->
 
                 <div class="option-item activable" id="reset">
                   <span class="title">초기화</span>

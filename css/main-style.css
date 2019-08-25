@@ -37,6 +37,8 @@
   --default-space: 1.5vh;
   --small-space: 1vh;
   --list-item-margin: 5px;
+  --sidebar-padding-vertical: 2.5vh;
+  --sidebar-padding-horizontal: 6vw;
 
   /* BORDER RADIUS */
   --default-border-radius: 5px;
@@ -87,7 +89,7 @@ html {
 
 body {
   font-family: 'NotoSans-Regular';
-  padding: 0;
+  padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px) env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -170,6 +172,8 @@ button {
 }
 
 #side-bar #side-bar-content-container {
+  display: flex;
+  flex-direction: column;
   z-index: 11;
   height: 100%;
   float: right;
@@ -207,8 +211,20 @@ button {
 }
 
 #side-bar[toggle] #side-bar-content-container div.menu-item {
-  padding: 2.5vh 6vw;
+  padding: var(--sidebar-padding-vertical) var(--sidebar-padding-horizontal);
   color: var(--theme-white);
+  flex: 1;
+}
+
+#side-bar[toggle] #side-bar-content-container div#contact-info-container {
+  padding: var(--sidebar-padding-vertical) var(--sidebar-padding-horizontal);
+  display: flex;
+}
+#side-bar[toggle] #side-bar-content-container div#contact-info-container a.email-card{
+  flex: 1;
+  color: var(--theme-white);
+  text-align: right;
+  font-size: var(--small-font-size);
 }
 
 #content {

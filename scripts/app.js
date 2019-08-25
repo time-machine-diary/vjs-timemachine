@@ -14,6 +14,7 @@ const sideBarUI = new SideBarUI();
 const settingUI = new SettingUI();
 const webDBUtil = new WebDBUtil();
 const pageUtil = new PageUtil();
+const fileTransUtil = new FileTransferUtil();
 const localNotificationUtil = new LocalNotificationUtil();
 new AuthUI();
 
@@ -31,11 +32,12 @@ const app = {
     headerUI.showCommonHeader();
     viewerUI.renderViewer();
     calendarUI.renderCalendars();
-    listUI.renderList();
+    listUI.renderLists();
     settingUI.initAppVersion(window.CONST.APP.VERSION);
     pageUtil.initialSetup(app.getEntryPoint(), Array.from(document.querySelectorAll('div[page]')));
     app.changeHiddenPickerValue();
     app.hideSplashScreen();
+    fileTransUtil.storageInitialize();
   },
 
   adjustTheme: function() {
@@ -128,6 +130,10 @@ const app = {
     document.addEventListener('search-keyword-changed', app.searchByKeyword);
     
     document.addEventListener('reset-diary', app.resetDiary);
+
+    document.addEventListener('import-diary', app.importDiary);
+
+    document.addEventListener('export-diary', app.exportDiary);
     
     document.addEventListener('theme-changed', app.adjustTheme);
 
@@ -251,8 +257,8 @@ const app = {
         headerUI.showCommonHeader();
         // footerUI.showListFooter();
         app.getMonthDiaryList();
-        listUI.renderList();
-        listUI.moveTopByDate();
+        listUI.renderLists();
+        // listUI.moveTopByDate();
         break;
   
       case 'write':
@@ -383,7 +389,9 @@ const app = {
       }
     })
     .then(() => {
-      history.back();
+      if(location.hash.indexOf('setting') === -1) {
+        history.back();
+      }
       document.dispatchEvent(new CustomEvent('diary-saved'));
     })
     .catch(error => {
@@ -397,6 +405,9 @@ const app = {
     .then(() => {
       app.getMonthDiaryList();
       viewerUI.showEmptyViewer();
+      if(event.detail.callback && typeof event.detail.callback === 'function') {
+        event.detail.callback();
+      }
       document.dispatchEvent(new CustomEvent('diary-deleted'));
     })
     .catch(error => {
@@ -465,7 +476,7 @@ const app = {
           name: '확인',
           type: CONST.NATIVE_STYLE.BTN.DEFAULT
         }]
-      });    
+      });
     })
     .catch(() => {
       window.ha.openConfirm({
@@ -533,9 +544,9 @@ const app = {
     }
   },
 
-  searchByKeyword: function(event) {
+  searchByKeyword: function() {
     'use strict';
-    let keywords = event.detail;
+    let keywords = headerUI.searchInput.value;
     if(!keywords) {
       return;
     }
@@ -576,7 +587,7 @@ const app = {
   
     webDBUtil.doTrx(sql, [])
     .then(result => {
-      if(result && result.length > 0) {
+      if(result && result.length >= 0) {
         location.hash = 'search';
         searchUI.renderSearchList(result, keywords);
       }
@@ -614,15 +625,155 @@ const app = {
     });
   },
 
+  importDiary: function() {
+    'use strict';
+    fileTransUtil.readFiles(window.CONST.FILE.PATH, fileEntries => {
+      const total = fileEntries.length;
+
+      if(total === 0) {
+        window.ha.openConfirm({
+          title: '불러오기',
+          type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+          message: '기기에 저장된 일기가 없습니다.',
+          options: [{
+            name: '확인',
+            type: CONST.NATIVE_STYLE.BTN.DEFAULT
+          }]
+        });
+        return;
+      }
+
+      window.ha.openConfirm({
+        title: '불러오기',
+        type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+        message: `${total}개의 일기를 불러 오시겠습니까? 현재 작성된 일기를 덮어 쓸 수 있으니 주의하세요.`,
+        options: [{
+          name: '불러오기',
+          type: CONST.NATIVE_STYLE.BTN.DESTRUCTIVE,
+          callback: () => {
+            let idx = 0;
+
+            const importNextDiary = function() {
+              idx++;
+              window.spinner.show({ message: `${idx}/${total} 불러오기 진행중...` });
+              if(fileEntries[idx]) {
+                const fileName = fileEntries[idx].name;
+                fileTransUtil.readFile(fileName, content => {
+                  document.dispatchEvent(new CustomEvent('save-diary', {
+                    detail: {
+                      fileName: fileName,
+                      content: content
+                    }
+                  }));
+                });
+              } else {
+                document.removeEventListener('diary-saved', importNextDiary);
+                window.spinner.hide();
+                window.ha.openConfirm({
+                  title: '불러오기 완료',
+                  type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+                  message: `${total}개의 일기를 불러오는데 성공 했습니다.`,
+                  options: [{
+                    name: '확인',
+                    type: CONST.NATIVE_STYLE.BTN.DEFAULT
+                  }]
+                });
+              }
+            };
+            
+            document.addEventListener('diary-saved', importNextDiary);
+            const fileName = fileEntries[idx].name;
+            fileTransUtil.readFile(fileName, content => {
+              document.dispatchEvent(new CustomEvent('save-diary', {
+                detail: {
+                  fileName: fileName,
+                  content: content
+                }
+              }));
+            });
+            window.spinner.show({ message: `${idx}/${total} 불러오기 진행중...` });
+          }
+        }, {
+          name: '취소',
+          type: CONST.NATIVE_STYLE.BTN.CANCEL
+        }]
+      });
+    });
+  },
+
+  exportDiary: function() {
+    'use strict';
+    const sql = `
+      SELECT fileName, content FROM tm_diaries
+    `;
+
+    webDBUtil.doTrx(sql, [])
+    .then(diaries => {
+      const total = diaries.length;
+
+      if(total === 0) {
+        window.ha.openConfirm({
+          title: '내보내기',
+          type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+          message: '아직 작성하신 일기가 없습니다.',
+          options: [{
+            name: '확인',
+            type: CONST.NATIVE_STYLE.BTN.DEFAULT
+          }]
+        });
+
+        return;
+      }
+
+      let idx = 0;
+      const writeNextDiary = function() {
+        idx++;
+        window.spinner.show({ message: `${idx}/${total} 내보내기 진행중...` });
+        if(diaries[idx]) {
+          fileTransUtil.writeFile(diaries[idx].fileName, diaries[idx].content);    
+        } else {
+          document.removeEventListener('write-file-success', writeNextDiary);
+          document.removeEventListener('write-file-error', failWriteDiary);
+          window.spinner.hide();
+          window.ha.openConfirm({
+            title: '내보내기 완료',
+            type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+            message: `${diaries.length}개의 일기를 내보내는데 성공 했습니다.`,
+            options: [{
+              name: '확인',
+              type: CONST.NATIVE_STYLE.BTN.DEFAULT
+            }]
+          });
+        }
+      };
+      const failWriteDiary = function() {
+        window.ha.openConfirm({
+          title: '내보내기 실패',
+          type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+          message: `'${event.detail.fileName}' 일기 내보내기에 실패 했습니다.`,
+          options: [{
+            name: '확인',
+            type: CONST.NATIVE_STYLE.BTN.DESTRUCTIVE
+          }]
+        });
+      };
+      document.addEventListener('write-file-success', writeNextDiary);
+      document.addEventListener('write-file-error', failWriteDiary);
+
+      fileTransUtil.writeFile(diaries[idx].fileName, diaries[idx].content);
+      window.spinner.show({ message: `${idx}/${total} 내보내기 진행중...` });
+    });
+  },
+
   addNotification: function(event) {
     'use strict';
     const hour = event.detail.hour;
     const minute = event.detail.minute;
-    const interval = event.detail.interval;
     const title = CONST.NOTIFICATION.TITLE.REMIND_TITLE;
+    const subtitle = CONST.NOTIFICATION.SUBTITLE.REMIND_SUBTITLE;
     const message = CONST.NOTIFICATION.MESSAGE.REMIND_MESSAGE;
 
-    localNotificationUtil.addNotification(title, message, hour, minute, interval);
+    localNotificationUtil.addNotification(title, subtitle, message, hour, minute);
   },
 
   clearNotification: function() {
