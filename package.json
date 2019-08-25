@@ -1,0 +1,16 @@
+{
+  "name": "timemachine",
+  "version": "1.0.0",
+  "description": "Timemachine Application",
+  "main": "index.html",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Timemachine"
+  ],
+  "author": "Jay Lee <jaylee.possible@gmail.com>",
+  "license": "ISC"
+}

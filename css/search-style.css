@@ -1,0 +1,111 @@
+div#search-view {
+  flex: 1;
+}
+
+div#search-view-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+div#search-view-container div.divide-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 8vh;
+}
+
+div#search-view-container div.divide-line-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+div#search-view-container div.divide-line-top {
+  flex: 1;
+  border-bottom: .5px solid var(--theme-dark-gray);
+}
+
+div#search-view-container div.divide-line-bottom {
+  flex: 1;
+  border-top: .5px solid var(--theme-dark-gray);
+}
+
+div#search-view-container span.divide-display {
+  padding: var(--default-space) var(--midium-space);
+  color: var(--theme-dark-gray);
+  font-size: var(--header-font-size);
+  margin: auto;
+}
+
+div#search-view-container div.list-item {
+  display: flex;
+  background-color: var(--theme-white);
+  margin: 5px;
+  min-height: 8vh;
+  border-radius: var(--default-border-radius);
+}
+
+div#search-view-container div.date-section {
+  display: flex;
+  flex-direction: column;
+  min-width: 6vh;
+  padding: 1vh;
+  border: 1px solid var(--theme-gray);
+  border-top-left-radius: var(--default-border-radius);
+  border-bottom-left-radius: var(--default-border-radius);
+}
+
+div#search-view-container div.date-section span.date {
+  display: flex;
+  margin: auto;
+  font-size: 3vh;
+  color: var(--theme-black);
+}
+
+div#search-view-container div.list-item div.date-section span.day {
+  margin: auto;
+  font-size: 1.5vh;
+  color: var(--theme-black)
+}
+
+div#search-view-container div.date-section.sunday {
+  border: 1px solid var(--main-theme-color);
+  border-top-left-radius: var(--default-border-radius);
+  border-bottom-left-radius: var(--default-border-radius);
+  background-color: var(--main-theme-color);
+}
+
+div#search-view-container div.list-item div.date-section.sunday span.date {
+  color: var(--theme-white);
+}
+
+div#search-view-container div.list-item div.date-section.sunday span.day {
+  color: var(--theme-white)
+}
+
+div#search-view-container div.list-item div.content-section {
+  display: grid;
+  flex: 1;
+  border-top: 1px solid var(--theme-gray); border-right: 1px solid var(--theme-gray); border-bottom: 1px solid var(--theme-gray);
+  border-top-right-radius: var(--default-border-radius); border-bottom-right-radius: var(--default-border-radius);
+  color: var(--theme-dark-gray);
+}
+
+div#search-view-container div.list-item div.content-section div.content{
+  display: -webkit-box;
+  font-size: var(--default-font-size);
+  margin: auto var(--default-space);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap:break-word; 
+  line-height: 1;
+  max-height: 2em;
+}
+div#search-view-container strong {
+  color: var(--main-theme-color);
+}

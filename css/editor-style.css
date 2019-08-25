@@ -1,0 +1,20 @@
+div#editor-view {
+  flex: 1;
+}
+
+div#editor-view-container {
+  display: flex;
+  flex: 1;
+}
+
+textarea#editor {
+  display: flex;
+  flex: 1;
+  color: var(--theme-dark-gray);
+}
+
+img#route-back-btn {
+  margin: auto;
+  height: 2.5vh;
+  padding: 2vw;
+}

@@ -1,0 +1,107 @@
+div#auth-view {
+  flex: 1;
+}
+
+div#auth-view-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--theme-white);
+}
+
+#auth-display {
+  display: flex;
+  flex-direction: column;
+}
+
+#auth-display object#auth-locker-img {
+  margin: auto;
+  height: 10vh;
+  padding-top: 10vh;
+  padding-bottom: 5vh;
+}
+
+#auth-display span#auth-display-text {
+  margin: auto;
+  padding-bottom: var(--default-space);
+  color: var(--main-theme-color);
+}
+
+#auth-display div#auth-silhouette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 5vw;
+  margin: auto;
+}
+
+#auth-display div#auth-silhouette div.auth-unit {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--main-theme-color);
+  border-radius: 100%;
+}
+
+#auth-display div#auth-silhouette div.auth-unit[filled] {
+  background-color: var(--main-theme-color);
+}
+
+#auth-num-pad {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 3vh auto auto auto;
+}
+
+#auth-num-pad .num-pad-container {
+  width: 80vw;
+  display: grid;
+  grid-auto-flow: column;
+  margin-top: 3vh;
+  z-index: 1;
+}
+
+#auth-num-pad .num-pad-container button {
+  margin: auto;
+  background-color: transparent;
+  width: var(--num-pad-size);
+  height: var(--num-pad-size);
+  color: var(--main-theme-color);
+  border: 1px solid var(--main-theme-color);
+  border-radius: 100%;
+  font-size: var(--num-pad-font-size);
+}
+
+#auth-num-pad .num-pad-container button object {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  margin: auto;
+  width: var(--num-pad-size);
+  background-color: #fff;
+  z-index: -1;
+}
+
+#auth-num-pad .num-pad-container button.disabled {
+  border: 0;
+}
+
+#auth-num-pad .num-pad-container button.disabled:active {
+  background-color: transparent !important;
+}
+
+#auth-num-pad .num-pad-container button#changable-btn {
+  font-size: 2.5vh;
+}
+
+#auth-num-pad .num-pad-container button#changable-btn.touch-id {
+  position: relative;
+  border: 0;
+}
+
+#auth-num-pad .num-pad-container button.del-btn {
+  font-size: 2.5vh;
+}
+
+#auth-num-pad .num-pad-container button:active {
+  background-color: var(--main-theme-color);
+  color: var(--theme-white);
+}

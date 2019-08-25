@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Time machine</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="side-bar" style="display: none;">
+        <div id="side-bar-modal"></div>
+        <div id="side-bar-content-container"></div>        
+      </div>
+
+      <div id="header">
+        <div id="header-left"></div>
+        <div id="header-center"></div>
+        <div id="header-right"></div>
+      </div>
+
+      <div id="content">
+        <!-- Calendar View -->
+        <div id="calendar-view" page="calendar">
+          <div id="calender-view-top">
+            <div id="days-row">
+              <span class="day">일</span>
+              <span class="day">월</span>
+              <span class="day">화</span>
+              <span class="day">수</span>
+              <span class="day">목</span>
+              <span class="day">금</span>
+              <span class="day">토</span>
+            </div>
+            <div id="calendar-container">
+              <div id="prev-calendar" class="calendar"></div>
+              <div id="calendar" class="calendar"></div>
+              <div id="next-calendar" class="calendar"></div>
+            </div>
+          </div>
+          <div id="viewer-container">
+            <div id="viewer">
+              <div id="viewer-header"></div>
+              <div id="viewer-content"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Calendar View -->
+
+        <!-- List View -->
+        <div id="list-view" page="list">
+          <div id="prev-pull-point" class="pull-point">
+            <div class="pull-point-top transparents-bg"></div>
+            <div class="pull-point-body transparents-bg"></div>
+            <div class="pull-point-bottom transparents-bg"></div>
+          </div>
+          
+          <div id="list-view-container">
+            <list id="list"></list>
+          </div>
+
+          <div id="next-pull-point" class="pull-point">
+            <div class="pull-point-top transparents-bg"></div>
+            <div class="pull-point-body transparents-bg"></div>
+            <div class="pull-point-bottom transparents-bg"></div>
+          </div>
+        </div>
+        <!-- List View -->
+
+        <!-- Editor View -->
+        <div id="editor-view" page="write">
+          <div id="editor-view-container">
+            <textarea id="editor"></textarea>
+          </div>
+        </div>
+        <!-- Editor View -->
+
+        <!-- Search View -->
+        <div id="search-view" page="search">
+          <div id="search-view-container">
+          </div>
+        </div>
+        <!-- Search View -->
+
+        <!-- Setting View -->
+        <div id="setting-view" page="setting">
+          <div id="setting-view-container">
+            <div id="setting-logo-container">
+              <img id="setting-logo-img" src="./assets/images/logo-white.svg">
+              <span id="setting-app-name" class="info-txt">TIME MACHINE DIARY</span>
+              <span id="setting-version" class="info-txt"></span>
+            </div>
+
+            <div id="setting-views">
+              <div id="settings" class="setting-view">
+                <div id="pwd-active" class="option-item activable combo">
+                  <span class="title">암호 잠금</span>
+                  <span id="pwd-active-text"></span>
+                </div>
+
+                <div class="empty-item"></div>
+
+                <div id="initial-view-setting" class="option-item combo">
+                  <span class="title">초기화면</span>
+                  <span id="initial-view"></span>
+                </div>
+
+                <div class="option-item">
+                  <span class="title">알람</span>
+                  <input id="alarm-time" type="time" value="00:00" step="300" disabled>
+                  <input id="alarm-active" type="checkbox">
+                </div>              
+
+                <div class="empty-item"></div>
+
+                <div id="theme-setting" class="option-item activable combo">
+                  <span class="title">테마</span>
+                  <span id="current-theme-text"></span>
+                </div>
+
+                <div class="empty-item"></div>
+
+                <div class="option-item activable" id="import">
+                  <span class="title">불러오기</span>
+                </div>
+
+                <div class="option-item activable" id="export">
+                  <span class="title">내보내기</span>
+                </div>
+                
+                <div class="empty-item"></div>
+
+                <div class="option-item">
+                  <span class="title">버전</span>
+                  <span id="app-version"></span>
+                </div>
+
+                <div class="option-item activable" id="contact-us">
+                  <span class="title">Contact us</span>
+                </div>
+
+                <div class="option-item activable" id="reset">
+                  <span class="title">초기화</span>
+                </div>
+
+                <div class="empty-item"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Setting View -->
+
+        <!-- Auth View -->
+        <div id="auth-view" page="auth">
+          <div id="auth-view-container">
+            <div id="auth-display">
+              <object id="auth-locker-img" type="image/svg+xml"></object>
+              <span id="auth-display-text"></span>
+
+              <div id="auth-silhouette">
+                <div class="auth-unit"></div>
+                <div class="auth-unit"></div>
+                <div class="auth-unit"></div>
+                <div class="auth-unit"></div>
+              </div>
+            </div>
+
+            <div id="auth-num-pad">
+              <div class="num-pad-container">
+                <button class="auth-num-pad" value="1">1</button>
+                <button class="auth-num-pad" value="2">2</button>
+                <button class="auth-num-pad" value="3">3</button>
+              </div>
+              <div class="num-pad-container">
+                <button class="auth-num-pad" value="4">4</button>
+                <button class="auth-num-pad" value="5">5</button>
+                <button class="auth-num-pad" value="6">6</button>
+              </div>
+              <div class="num-pad-container">
+                <button class="auth-num-pad" value="7">7</button>
+                <button class="auth-num-pad" value="8">8</button>
+                <button class="auth-num-pad" value="9">9</button>
+              </div>
+              <div class="num-pad-container">
+                <button id="changable-btn" class="auth-num-pad"></button>
+                <button class="auth-num-pad" value="0">0</button>
+                <button class="auth-num-pad del-btn" value="del">Del</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Auth View -->
+
+        <!-- Screen Blocker View -->
+        <!--div id="screen-blocker-view" page="screen_blocker">
+          <div id="screen-blocker-view-container">
+            <img id="blocker-img" src="./assets/images/screen-block.jpeg">
+          </div>
+        </div-->
+        <!-- Screen Blocker View -->
+      </div>
+
+      <!--div id="footer"></div-->
+
+      <input type="month" id="hidden-datepicker" tabindex="-1">
+      <!--select id="hidden-weather-combo" tabindex="-1">
+        <option value="SUNNY">맑음</option>
+        <option value="CLOUDY">흐림</option>
+        <option value="RAINY">비</option>
+        <option value="SNOWY">눈</option>
+      </select-->
+    </div>
+
+    <script src="./static/const.js"></script>
+    <script src="./scripts/src-loader.js"></script>
+    <script src="./cordova.js"></script>
+  </body>
+</html>
