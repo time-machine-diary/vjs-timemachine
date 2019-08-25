@@ -58,19 +58,40 @@
       document.head.appendChild(linkTag);
     });
 
-    scriptList.forEach(script => {
+    let scriptIdx = 0;
+    const _loadScript = function() {
       const scriptTag = _getScriptTag();
+      const script = scriptList[scriptIdx];
+      scriptIdx++;
       scriptTag.setAttribute('src', `${prefix}/scripts/${script}`);
       if(script === 'app.js') {
-        scriptTag.addEventListener('load', () => {
+        scriptTag.onload = () => {
           setTimeout(() => {
             document.dispatchEvent(new CustomEvent('src-imported'));
           }, 1000);
-        });
+        };
+      } else if (script !== 'app.js' && scriptList[scriptIdx]) {
+        scriptTag.onload = _loadScript;
       }
 
       document.body.appendChild(scriptTag);
-    });
+    };
+
+    _loadScript(scriptList[scriptIdx]);
+
+    // scriptList.forEach(script => {
+    //   const scriptTag = _getScriptTag();
+    //   scriptTag.setAttribute('src', `${prefix}/scripts/${script}`);
+    //   if(script === 'app.js') {
+    //     scriptTag.addEventListener('load', () => {
+    //       setTimeout(() => {
+    //         document.dispatchEvent(new CustomEvent('src-imported'));
+    //       }, 1000);
+    //     });
+    //   }
+
+    //   document.body.appendChild(scriptTag);
+    // });
   };
 
   // if(location.protocol.indexOf('http') >= 0) {

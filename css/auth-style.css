@@ -16,9 +16,9 @@ div#auth-view-container {
 
 #auth-display object#auth-locker-img {
   margin: auto;
-  height: 10vh;
-  padding-top: 10vh;
-  padding-bottom: 5vh;
+  height: 4rem;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
 }
 
 #auth-display span#auth-display-text {
@@ -30,7 +30,7 @@ div#auth-view-container {
 #auth-display div#auth-silhouette {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 5vw;
+  grid-gap: 1.25rem;
   margin: auto;
 }
 
@@ -49,14 +49,14 @@ div#auth-view-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin: 3vh auto auto auto;
+  margin: 1.25rem auto auto auto;
 }
 
 #auth-num-pad .num-pad-container {
-  width: 80vw;
+  width: 20rem;
   display: grid;
   grid-auto-flow: column;
-  margin-top: 3vh;
+  margin-top: 1.25rem;
   z-index: 1;
 }
 
@@ -89,7 +89,7 @@ div#auth-view-container {
 }
 
 #auth-num-pad .num-pad-container button#changable-btn {
-  font-size: 2.5vh;
+  font-size: 1rem;
 }
 
 #auth-num-pad .num-pad-container button#changable-btn.touch-id {
@@ -98,7 +98,7 @@ div#auth-view-container {
 }
 
 #auth-num-pad .num-pad-container button.del-btn {
-  font-size: 2.5vh;
+  font-size: 1rem;
 }
 
 #auth-num-pad .num-pad-container button:active {

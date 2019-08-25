@@ -9,6 +9,9 @@ class FileTransferUtil {
   }
 
   storageInitialize() {
+    if(!('cordova' in window)) {
+      return;
+    }
     const basePath = cordova.file.documentsDirectory;
     let filePath = this.getFilePath();
     this.getDirEntry(basePath)

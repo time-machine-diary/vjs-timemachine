@@ -4,13 +4,25 @@
   "description": "Timemachine Application",
   "main": "index.html",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-csso": "^3.0.1",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-uglify-es": "^1.0.4"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx gulp build"
   },
   "keywords": [
     "Timemachine"
   ],
-  "author": "Jay Lee <jaylee.possible@gmail.com>",
+  "author": {
+    "name": "Jay Lee",
+    "email": "jaylee.possible@gmail.com"
+  },
+  "contributors": [
+    "gincheong@gmailc.om"
+  ],
   "license": "ISC"
 }

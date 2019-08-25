@@ -245,7 +245,8 @@ class HeaderUI {
       this.menuBtn.setAttribute('id', 'menu-btn');
       this.menuBtn.setAttribute('src', './assets/images/menu.svg');
       this.menuBtn.addEventListener('click', () => {
-        document.dispatchEvent(new CustomEvent('menu-btn-click'));
+        // document.dispatchEvent(new CustomEvent('menu-btn-click'));
+        location.hash = 'setting';
       });
 
     }

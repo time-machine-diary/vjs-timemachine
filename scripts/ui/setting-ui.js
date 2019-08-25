@@ -23,8 +23,6 @@ class SettingUI {
 
     this.setInitValues();
     this.registerEventListeners();
-
-    this.moduleName = 'Setting UI';
   }
 
   setInitValues() {
