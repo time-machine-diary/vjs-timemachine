@@ -9,6 +9,29 @@
     <title>Time machine</title>
   </head>
   <body>
+    <div id="starting-page"
+      style="position: absolute;
+             top: 0px;
+             bottom: 0px;
+             left: 0px;
+             right: 0px;
+             z-index: 100;
+             display: flex;
+             flex-direction: column;
+             background: linear-gradient(to bottom, #BF004D 0%, #560022 70%)">
+      <span style="margin: 4rem auto;
+                    color: var(--theme-white);
+                    font-size: var(--medium-font-size);
+                    text-align: center;
+                    font-weight: bold;">TIME MACHINE DIARY
+      </span>
+      <object
+        type="image/svg+xml"
+        data="./assets/images/logo-colored.svg"
+        style="margin: 16rem auto;
+               height: var(--blocker-icon-size);">
+      </object>
+    </div>
     <div id="container">
       <div id="side-bar" style="display: none;">
         <div id="side-bar-modal"></div>
@@ -50,24 +73,12 @@
         <!-- Calendar View -->
 
         <!-- List View -->
-        <div id="list-view" page="list">
-          <!--div id="prev-pull-point" class="pull-point">
-            <div class="pull-point-top transparents-bg"></div>
-            <div class="pull-point-body transparents-bg"></div>
-            <div class="pull-point-bottom transparents-bg"></div>
-          </div-->
-          
+        <div id="list-view" page="list">         
           <div id="list-view-container">
             <div id="prev-list" class="list"></div>
             <div id="list" class="list"></div>
             <div id="next-list" class="list"></div>
           </div>
-
-          <!--div id="next-pull-point" class="pull-point">
-            <div class="pull-point-top transparents-bg"></div>
-            <div class="pull-point-body transparents-bg"></div>
-            <div class="pull-point-bottom transparents-bg"></div>
-          </div-->
         </div>
         <!-- List View -->
 
@@ -147,7 +158,9 @@
                   <span class="title">초기화</span>
                 </div>
 
-                <div class="empty-item"></div>
+                <div class="empty-item mail-card">
+                  <a href="mailto:support@tm-diary.com">support@tm-diary.com</a>
+                </div>
               </div>
             </div>
           </div>
@@ -196,11 +209,11 @@
         <!-- Auth View -->
 
         <!-- Screen Blocker View -->
-        <!--div id="screen-blocker-view" page="screen_blocker">
+        <div id="screen-blocker-view" page="screen_blocker">
           <div id="screen-blocker-view-container">
-            <img id="blocker-img" src="./assets/images/screen-block.jpeg">
+            <img id="blocker-img" src="./assets/images/logo-colored.svg">
           </div>
-        </div-->
+        </div>
         <!-- Screen Blocker View -->
       </div>
 

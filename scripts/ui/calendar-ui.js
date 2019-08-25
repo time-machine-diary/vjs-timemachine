@@ -388,7 +388,9 @@ class CalendarUI {
     let dateCell = document.createElement('div');
     dateCell.classList.add('date-cell');
     dateCell.addEventListener('click', () => {
-      dateCell.select();
+      if(dateCell.innerText && dateCell.innerText.length > 0) {
+        dateCell.select();
+      }
     });
 
     dateCell.select = () => {

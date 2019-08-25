@@ -1,5 +1,7 @@
 div#setting-view {
   flex: 1;
+  overflow-y: auto;
+  height: 100%;
 }
 
 div#setting-view-container {
@@ -14,12 +16,13 @@ div#setting-logo-container {
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 30vh;
 }
 
 img#setting-logo-img {
   flex: 1;
-  height: 12vh;
-  margin: auto
+  height: 6.4rem;
+  margin: auto;
 }
 
 span.info-txt {
@@ -31,8 +34,8 @@ span.info-txt {
 div#setting-views {
   display: flex;
   flex: 3;
+  overflow-y: auto;
 }
-
 
 div#setting-views div.setting-view {
   margin-top: var(--default-space);
@@ -46,20 +49,20 @@ div#settings {
 
 div.option-item {
   display: flex;
-  height: 4.5vh;
-  padding: 1.5vh;
+  height: 1.8rem;
+  padding: 0.625rem;
   background-color: var(--theme-white);
   border-bottom: 1px solid var(--theme-gray);
 }
 
 div.option-item.combo:after {
-  content: '';
-  background-image: url('../assets/images/arrow-right.svg');
+  content: "";
+  background-image: url("../assets/images/arrow-right.svg");
   background-repeat: no-repeat;
-  background-size: 1.5vh;
+  background-size: 0.625rem;
   background-position: center;
-  width: 3vw;
-  margin-left: 2vw;
+  width: 0.75rem;
+  margin-left: 0.5rem;
 }
 
 div.option-item.activable:active {
@@ -70,8 +73,8 @@ div.option-item.activable[disabled] {
   color: var(--theme-gray);
 }
 
-div.option-item.option object{
-  width: 4vw;
+div.option-item.option object {
+  width: 1rem;
 }
 
 div.option-item span.title {
@@ -88,12 +91,23 @@ div.option-item input {
 }
 
 div.empty-item {
-  padding: 1.5vh;
+  padding: 0.625rem;
   background-color: transparent;
-  height: 3vh;
+  height: 1.25rem;
 }
 
 input#alarm-time {
   margin-right: var(--default-space);
   color: var(--font-color-default);
+}
+
+div.mail-card {
+  display: grid;
+  justify-items: end;
+}
+
+div.mail-card a {
+  color: var(--theme-white);
+  font-size: var(--medium-font-size);
+  text-decoration: none;
 }

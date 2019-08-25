@@ -23,7 +23,6 @@ div#list-view-container div.list-item {
   flex-direction: row;
   background-color: var(--theme-white);
   margin: 5px 5px 0 5px;
-  min-height: 8vh;
   border-radius: var(--default-border-radius);
   /* border: 1px solid var(--theme-gray); */
 }
@@ -43,8 +42,9 @@ div#list-view-container div.list-item[disabled] div.date-section span {
 div#list-view-container div.list-item div.date-section {
   display: flex;
   flex-direction: column;
-  min-width: 6vh;
-  padding: 1vh;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: .4rem;
   border: 1px solid var(--theme-gray);
   border-top-left-radius: var(--default-border-radius);
   border-bottom-left-radius: var(--default-border-radius);
@@ -67,7 +67,7 @@ div#list-view-container div.list-item div.date-section span {
 
 div#list-view-container div.list-item div.date-section span.date {
   margin: auto;
-  font-size: 3vh;
+  font-size: 1.25rem;
   color: var(--theme-black);
 }
 
@@ -77,7 +77,7 @@ div#list-view-container div.list-item div.date-section.sunday span.date {
 
 div#list-view-container div.list-item div.date-section span.day {
   margin: auto;
-  font-size: 1.5vh;
+  font-size: .625rem;
   color: var(--theme-black)
 }
 
@@ -126,41 +126,6 @@ div#list-view-container div.list-item div.content-section div.content img.add-bt
 
 div#list-view-container div.list-item[assigned] div.content-section div.content img.add-btn {
   display: none;
-}
-
-div#prev-pull-point {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: calc(var(--header-height) + 3vh);
-  left: 50%; right: 50%;
-  z-index: 5;
-}
-
-div#next-pull-point {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  bottom: 3vh;
-  left: 50%; right: 50%;
-  z-index: 5;
-}
-
-div.pull-point .pull-point-top {
-  border-top-left-radius: 100px; border-top-right-radius: 100px;
-  background-color: var(--main-theme-color);
-  width: 1.5vh;
-  height: .75vh;
-}
-div.pull-point .pull-point-body {
-  background-color: var(--main-theme-color);
-  width: 1.5vh;
-}
-div.pull-point .pull-point-bottom {
-  border-bottom-left-radius: 100px; border-bottom-right-radius: 100px;
-  background-color: var(--main-theme-color);
-  width: 1.5vh;
-  height: .75vh;
 }
 
 .transparents-bg {

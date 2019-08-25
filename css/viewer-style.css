@@ -14,7 +14,7 @@ div#viewer {
 div#viewer div#viewer-header {
   display: flex;
   border-bottom: 1px solid var(--theme-gray);
-  height: 6vh;
+  height: 2.5rem;
 }
 div#viewer div#viewer-content {
   flex: 1;
@@ -30,8 +30,8 @@ span#viewer-date-field {
   color: var(--theme-dark-gray);
 }
 object#viewer-delete-btn {
-  height: 4vh;
-  width: 4vh;
+  height: 1.6rem;
+  width: 1.6rem;
   margin: var(--small-space);
 }
 
@@ -41,8 +41,8 @@ object#viewer-delete-btn polygon {
 
 div#viewer-content img#empty-viewer {
   margin: auto;
-  height: 7vh;
-  padding: 5vw;
+  height: 2.9rem;
+  padding: 1.25rem;
 }
 
 div#viewer-content div#content-viewer {

@@ -7,14 +7,13 @@ div#calendar-view {
 div#calender-view-top {
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 div#days-row {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   border-bottom: 1px solid var(--theme-gray);
-  height: 5.923vh;
+  height: 2.65rem;
   background-color: var(--theme-white);
 }
 
@@ -34,7 +33,6 @@ div#calendar-container {
 }
 
 div#prev-calendar, div#calendar, div#next-calendar {
-  flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 100%;
@@ -43,6 +41,7 @@ div#prev-calendar, div#calendar, div#next-calendar {
 div.dates-row {
   flex: 1;
   display: grid;
+  height: 2.65rem;
   grid-template-columns: repeat(7, 1fr);
   border-bottom: 1px solid var(--theme-gray);
 }

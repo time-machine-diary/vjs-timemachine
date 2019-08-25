@@ -7,24 +7,24 @@
 :root {
   /* COLOR */
   --theme-dark-gray: #747474;
-  --theme-gray: #C8C8CA;
-  --theme-light-gray: #F1F2F1;
+  --theme-gray: #c8c8ca;
+  --theme-light-gray: #f1f2f1;
   --theme-white: #fff;
   --theme-black: #000;
 
   /* SIZE */
-  --header-height: 7.5vh;
-  --footer-height: 7.5vh;
-  --num-pad-size: 10vh;
-  --blocker-icon-size: 25vh;
+  --header-height: 3rem;
+  --footer-height: 3rem;
+  --num-pad-size: 4rem;
+  --blocker-icon-size: 10rem;
 
   /* FONT */
-  --header-font-size: 2.5vh;
-  --input-font-size: 2.5vh;
-  --default-font-size: 2.5vh;
-  --small-font-size: 1.5vh;
-  --medium-font-size: 2vh;
-  --num-pad-font-size: 4vh;
+  --header-font-size: 1rem;
+  --input-font-size: 1rem;
+  --default-font-size: 1rem;
+  --small-font-size: 0.625rem;
+  --medium-font-size: 0.8rem;
+  --num-pad-font-size: 1.6rem;
 
   /* FONT COLOR */
   --font-color-default: #747474;
@@ -32,13 +32,13 @@
   --font-color-black: #000;
 
   /* SPACING */
-  --wide-space: 5vh;
-  --midium-space: 3vh;
-  --default-space: 1.5vh;
-  --small-space: 1vh;
+  --wide-space: 2rem;
+  --midium-space: 1.25rem;
+  --default-space: 0.625rem;
+  --small-space: 0.4rem;
   --list-item-margin: 5px;
-  --sidebar-padding-vertical: 2.5vh;
-  --sidebar-padding-horizontal: 6vw;
+  --sidebar-padding-vertical: 1rem;
+  --sidebar-padding-horizontal: 1.5rem;
 
   /* BORDER RADIUS */
   --default-border-radius: 5px;
@@ -48,15 +48,21 @@
 /* COMMON STYLES */
 * {
   -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-drag: none;
 }
 
 input {
   outline: none;
   font-size: var(--input-font-size);
   -webkit-user-select: auto !important;
-  user-select: auto !important;  
+  user-select: auto !important;
+}
+
+input[type="time"] {
+  -webkit-user-select: none !important;
+  user-select: none !important;
 }
 
 textarea {
@@ -75,8 +81,8 @@ textarea {
 
 /* LAYOUT */
 @font-face {
-  font-family: 'NotoSans-Regular';
-  src: url('../assets/fonts/NotoSans-Regular.ttf');
+  font-family: "NotoSans-Regular";
+  src: url("../assets/fonts/NotoSans-Regular.ttf");
 }
 
 html {
@@ -88,14 +94,15 @@ html {
 }
 
 body {
-  font-family: 'NotoSans-Regular';
-  padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px) env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
+  font-family: "NotoSans-Regular";
+  padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px)
+    env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
   margin: 0;
   display: flex;
   flex-direction: column;
   flex: 1;
   overflow: hidden;
-  background-color: var(--main-theme-color)
+  background-color: var(--main-theme-color);
 }
 
 input[type="checkbox"] {
@@ -163,11 +170,14 @@ button {
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 100%;
 }
 
-#side-bar, #side-bar #side-bar-modal {
+#side-bar,
+#side-bar #side-bar-modal {
   position: absolute;
-  height: 100%; width: 100%;
+  height: 100%;
+  width: 100%;
   z-index: 10;
 }
 
@@ -179,22 +189,22 @@ button {
   float: right;
   position: absolute;
   background-color: var(--main-theme-color);
-  width: 70vw;
-  animation-duration: .25s;
+  width: 17.5rem;
+  animation-duration: 0.25s;
   animation-fill-mode: forwards;
   animation-timing-function: ease-out;
 }
 
 #side-bar[toggle] #side-bar-content-container {
   right: 0;
-  animation-duration: .25s;
+  animation-duration: 0.25s;
   animation-fill-mode: forwards;
   animation-timing-function: ease-out;
 }
 
 @keyframes side-bar-open {
   from {
-    right: -75vw;
+    right: -18.75rem;
   }
   to {
     right: 0;
@@ -206,8 +216,8 @@ button {
     right: 0;
   }
   to {
-    right: -75vw;
-  }  
+    right: -18.75rem;
+  }
 }
 
 #side-bar[toggle] #side-bar-content-container div.menu-item {
@@ -220,14 +230,19 @@ button {
   padding: var(--sidebar-padding-vertical) var(--sidebar-padding-horizontal);
   display: flex;
 }
-#side-bar[toggle] #side-bar-content-container div#contact-info-container a.email-card{
+#side-bar[toggle]
+  #side-bar-content-container
+  div#contact-info-container
+  a.email-card {
   flex: 1;
   color: var(--theme-white);
   text-align: right;
-  font-size: var(--small-font-size);
+  font-size: var(--medium-font-size);
+  text-decoration: none;
 }
 
 #content {
+  height: 100%;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -238,11 +253,12 @@ button {
   height: var(--header-height);
   background-color: var(--main-theme-color);
   display: grid;
-  grid-template-columns: 15vw 1fr 15vw;
+  grid-template-columns: 3.75rem 1fr 3.75rem;
   z-index: 2;
 }
 
-#header #header-left, #header #header-right {
+#header #header-left,
+#header #header-right {
   display: flex;
 }
 
@@ -252,8 +268,8 @@ button {
 
 #header #header-left #search-btn {
   margin: auto;
-  height: 3vh;
-  padding: 2vw;
+  height: 1.25rem;
+  padding: 0.5rem;
 }
 
 #header #header-center span {
@@ -277,19 +293,19 @@ button {
 
 #header #header-right #search-close-btn {
   margin: auto;
-  height: 4vh;
-  padding: 2vw;
+  height: 1.6rem;
+  padding: 0.5rem;
 }
 
 #header #header-right #menu-btn {
   margin: auto;
-  height: 2.5vh;
-  padding: 2vw;
+  height: 1rem;
+  padding: 0.5rem;
 }
 
 #header #header-right #weather-icon {
   margin: auto;
-  height: 3vh;
+  height: 1.25rem;
 }
 
 #footer {
@@ -302,7 +318,7 @@ button {
 
 #footer img {
   margin: auto var(--default-space);
-  height: 4vh;
+  height: 1.6rem;
 }
 
 div#toast-btn-modal[active] {
@@ -314,7 +330,7 @@ div#toast-btn-modal[active] {
 div#toast-btn-modal {
   background-color: transparent;
   -webkit-transition: all 0.3s;
-  transition: all 0.3s;  
+  transition: all 0.3s;
 }
 
 div#toast-btn-container {
@@ -327,21 +343,21 @@ div#toast-btn-container {
   margin: var(--default-space);
   background-color: var(--theme-white);
   animation-name: toast-down;
-  animation-duration: .5s;
+  animation-duration: 0.5s;
   animation-fill-mode: forwards;
-  animation-timing-function: ease-out;    
+  animation-timing-function: ease-out;
 }
 
 div#toast-btn-container[active] {
   animation-name: toast-up;
-  animation-duration: .5s;
+  animation-duration: 0.5s;
   animation-fill-mode: forwards;
-  animation-timing-function: ease-out;  
+  animation-timing-function: ease-out;
 }
 
 @keyframes toast-up {
   from {
-    bottom: -100%
+    bottom: -100%;
   }
   to {
     bottom: 0;
@@ -363,36 +379,40 @@ div#toast-btn-container div#toast-btn-message {
   border-bottom: 1px solid var(--theme-gray);
 }
 
-div#toast-btn-container div.toast-btn[type=positive] {
+div#toast-btn-container div.toast-btn[type="positive"] {
   color: var(--theme-dark-gray);
   padding: var(--default-space);
   border-bottom: 1px solid var(--theme-gray);
 }
 
-div#toast-btn-container div.toast-btn[type=negative] {
+div#toast-btn-container div.toast-btn[type="negative"] {
   padding: var(--default-space);
   border-bottom: 1px solid var(--theme-gray);
   color: var(--main-theme-color);
 }
 
-div#toast-btn-container div.toast-btn[type=positive]:active {
+div#toast-btn-container div.toast-btn[type="positive"]:active {
   background-color: var(--theme-gray);
   color: var(--theme-white);
 }
 
-div#toast-btn-container div.toast-btn[type=negative]:active {
+div#toast-btn-container div.toast-btn[type="negative"]:active {
   background-color: var(--main-theme-color);
   color: var(--theme-white);
 }
 
 div#blocker {
-  background: linear-gradient(to bottom, var(--main-theme-color) 0%, var(--main-theme-deep-dark) 70%);
+  background: linear-gradient(
+    to bottom,
+    var(--main-theme-color) 0%,
+    var(--main-theme-deep-dark) 70%
+  );
   display: flex;
   flex-direction: column;
 }
 
 div#blocker span#blocker-msg {
-  margin: 10vh auto;
+  margin: 4rem auto;
   color: var(--theme-white);
   font-size: var(--medium-font-size);
   text-align: center;
@@ -400,6 +420,6 @@ div#blocker span#blocker-msg {
 }
 
 div#blocker object#blocker-icon {
-  margin: 40vh auto;
+  margin: 16rem auto;
   height: var(--blocker-icon-size);
 }

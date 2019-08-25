@@ -1,15 +1,15 @@
 class LocalNotificationUtil {
-  addNotification(title, message, hour, minute, interval) {
+  addNotification(title, subtitle, message, hour, minute, successCallback, errorCallback) {
     if('LocalNotification' in window) {
-      window.LocalNotification.addNotification(title, message, hour, minute, interval);
+      window.LocalNotification.addNotification(title, subtitle, message, hour, minute, successCallback, errorCallback);
     } else {
       throw new Error('LocalNotificaion is not exists.');
     }
   }
 
-  clearNotification() {
+  clearNotification(successCallback, errorCallback) {
     if('LocalNotification' in window) {
-      window.LocalNotification.clearNotification();
+      window.LocalNotification.clearNotification(successCallback, errorCallback);
     } else {
       throw new Error('LocalNotificaion is not exists.');
     }

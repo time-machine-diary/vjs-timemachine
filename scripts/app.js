@@ -19,10 +19,6 @@ const localNotificationUtil = new LocalNotificationUtil();
 new AuthUI();
 
 const app = {
-  moduleName: 'App Module',
-
-  actived: true,
-
   initializeApplication: function() {
     'use strict';
     app.adjustTheme();
@@ -38,6 +34,8 @@ const app = {
     app.changeHiddenPickerValue();
     app.hideSplashScreen();
     fileTransUtil.storageInitialize();
+
+    document.getElementById('starting-page').remove();
   },
 
   adjustTheme: function() {
@@ -453,7 +451,7 @@ const app = {
     //   message: `${window.stdDateUtil.getYearMonthStr()}...`
     // }, 1);
 
-    window.spinner.showBySec(null, 1);
+    // window.spinner.showBySec(null, 1);
   
     calendarUI.renderCalendars();
     listUI.renderList();
@@ -773,12 +771,40 @@ const app = {
     const subtitle = CONST.NOTIFICATION.SUBTITLE.REMIND_SUBTITLE;
     const message = CONST.NOTIFICATION.MESSAGE.REMIND_MESSAGE;
 
-    localNotificationUtil.addNotification(title, subtitle, message, hour, minute);
+    localNotificationUtil.addNotification(title, subtitle, message, hour, minute, result => {
+      if(result === 'non-granted') {
+        window.ha.openConfirm({
+          title: '알람 설정 불가',
+          type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+          message: `설정을 통해 알람을 허용해 주세요.`,
+          options: [{
+            name: '취소',
+            type: CONST.NATIVE_STYLE.BTN.CANCEL,
+            callback: () => {
+              settingUI.alarmActive.checked = false;
+              settingUI.alarmActiveChanged();
+            }
+          }, {
+            name: '설정',
+            type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+            callback: () => {
+              settingUI.alarmActive.checked = false;
+              settingUI.alarmActiveChanged();
+              window.OpenSettingView.open();
+            }
+          }]
+        });
+      }
+    }, error => {
+      throw new Error('Failed to add local notification ' + error);
+    });
   },
 
   clearNotification: function() {
     'use strict';
-    localNotificationUtil.clearNotification();
+    localNotificationUtil.clearNotification(null, error => {
+      throw new Error('Failed to clear local notification ' + error);
+    });
   }
 };
 

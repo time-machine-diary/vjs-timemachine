@@ -5,7 +5,6 @@ class ListUI {
     this.list = document.getElementById('list');
     this.nextList = document.getElementById('next-list');
     this.addEventListeners();
-    this.moduleName = 'List UI';
     this.prevPullPoint = document.getElementById('prev-pull-point');
     this.nextPullPoint = document.getElementById('next-pull-point');
   }
