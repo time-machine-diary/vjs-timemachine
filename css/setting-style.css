@@ -1,0 +1,99 @@
+div#setting-view {
+  flex: 1;
+}
+
+div#setting-view-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--main-theme-color);
+  color: var(--font-color-default);
+}
+
+div#setting-logo-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+img#setting-logo-img {
+  flex: 1;
+  height: 12vh;
+  margin: auto
+}
+
+span.info-txt {
+  color: var(--theme-white);
+  font-size: var(--small-font-size);
+  margin: auto;
+}
+
+div#setting-views {
+  display: flex;
+  flex: 3;
+}
+
+
+div#setting-views div.setting-view {
+  margin-top: var(--default-space);
+  min-width: 100%;
+}
+
+div#settings {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+div.option-item {
+  display: flex;
+  height: 4.5vh;
+  padding: 1.5vh;
+  background-color: var(--theme-white);
+  border-bottom: 1px solid var(--theme-gray);
+}
+
+div.option-item.combo:after {
+  content: '';
+  background-image: url('../assets/images/arrow-right.svg');
+  background-repeat: no-repeat;
+  background-size: 1.5vh;
+  background-position: center;
+  width: 3vw;
+  margin-left: 2vw;
+}
+
+div.option-item.activable:active {
+  background-color: var(--theme-light-gray);
+}
+
+div.option-item.activable[disabled] {
+  color: var(--theme-gray);
+}
+
+div.option-item.option object{
+  width: 4vw;
+}
+
+div.option-item span.title {
+  flex: 1;
+  margin: auto 0 !important;
+}
+
+div.option-item span {
+  margin: auto;
+}
+
+div.option-item input {
+  margin: auto;
+}
+
+div.empty-item {
+  padding: 1.5vh;
+  background-color: transparent;
+  height: 3vh;
+}
+
+input#alarm-time {
+  margin-right: var(--default-space);
+  color: var(--font-color-default);
+}

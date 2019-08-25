@@ -1,0 +1,53 @@
+div#viewer-container {
+  display: flex;
+  flex: 1;
+}
+div#viewer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: var(--default-space);
+  background-color: var(--theme-white);
+  border-radius: var(--default-border-radius);
+  border: 1px solid var(--theme-gray);
+}
+div#viewer div#viewer-header {
+  display: flex;
+  border-bottom: 1px solid var(--theme-gray);
+  height: 6vh;
+}
+div#viewer div#viewer-content {
+  flex: 1;
+  display: flex;
+}
+
+span#viewer-date-field {
+  flex: 1;
+  margin-top: auto; margin-bottom: auto; margin-left: var(--default-space);
+  font-weight: 500;
+  font-size: var(--default-font-size);
+  color: var(--theme-gray);
+}
+object#viewer-delete-btn {
+  height: 4vh;
+  width: 4vh;
+  margin: var(--small-space);
+}
+
+object#viewer-delete-btn polygon {
+  fill: var(--main-theme-color);
+}
+
+div#viewer-content img#empty-viewer {
+  margin: auto;
+  height: 13vh;
+}
+
+div#viewer-content div#content-viewer {
+  flex: 1;
+  color: var(--theme-dark-gray);
+  font-size: var(--default-font-size);
+  margin: var(--default-space);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
