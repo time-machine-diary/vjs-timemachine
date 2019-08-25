@@ -96,6 +96,26 @@
               "--main-theme-dark": "#1D1E1E",
               "--main-theme-deep-dark": "#000000"
             }
+          },
+          {
+            name: "kakao",
+            description: "Kakao",
+            colors: {
+              "--main-theme-color": "#F9DD4A",
+              "--main-theme-light": "#F9DD4A",
+              "--main-theme-dark": "#F9DD4A",
+              "--main-theme-deep-dark": "#F9DD4A"
+            }
+          },
+          {
+            name: "Google",
+            description: "Google",
+            colors: {
+              "--main-theme-color": "#D85040",
+              "--main-theme-light": "#5383EC",
+              "--main-theme-dark": "#58A65C",
+              "--main-theme-deep-dark": "#F1BE42"
+            }
           }
         ],
         LS_KEYS: {
