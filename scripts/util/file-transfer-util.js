@@ -29,6 +29,32 @@ class FileTransferUtil {
     });
   }
 
+  readFiles(dirPath, callback) {
+    if(this.isMobile) {
+      this.mobileReadFiles(dirPath, callback);
+    } else {
+      this.webReadFiles(dirPath, callback);
+    }
+  }
+  
+  mobileReadFiles(dirPath, callback) {
+    const basePath = cordova.file.documentsDirectory;
+    const fullPath = basePath.endsWith('/') ? `${basePath}${dirPath}` : `${basePath}/${dirPath}`;
+    window.resolveLocalFileSystemURL(fullPath, dirEntry => {
+      const reader = dirEntry.createReader();
+      reader.readEntries(entries => {
+        callback(entries);
+      }, error => {
+        throw new Error(error);
+      });
+    });
+  }
+
+  webReadFiles(dirPath, callback) {
+    console.log('TODO: create web based logic');
+    console.log(dirPath, callback);
+  }
+
   /**
    * @description 파일 읽기
    */
@@ -214,6 +240,12 @@ class FileTransferUtil {
       };
 
       fileWriter.onerror = error => {
+        document.dispatchEvent(new CustomEvent('write-file-error', {
+          detail: {
+            fileName: fileName,
+            filePath: filePath
+          }
+        }));
         reject(error);
       };
 

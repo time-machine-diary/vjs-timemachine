@@ -14,7 +14,9 @@ class HeaderUI {
       let currentValue = event.currentTarget.value;
       if(!currentValue) {
         const date = new Date();
-        currentValue = `${date.getFullYear()}-${date.getMonth() + 1}`;
+        const year = date.getFullYear();
+        const month = date.getMonth() <= 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+        currentValue = `${year}-${month}`;
         setTimeout(() => {
           this.hiddenDatepicker.value = currentValue;
           this.hiddenDatepicker.blur();
@@ -212,8 +214,21 @@ class HeaderUI {
     if(!this.monthDisplay) {
       this.monthDisplay = document.createElement('span');
       this.monthDisplay.setAttribute('id', 'month-display');
-      this.monthDisplay.addEventListener('click', () => {
-        this.hiddenDatepicker.focus();
+
+      this.monthDisplay.addEventListener('touchstart', () => {
+        this.monthDisplay.tapCount = this.monthDisplay.tapCount ? this.monthDisplay.tapCount + 1 : 1;
+        setTimeout(() => {
+          if(this.monthDisplay.tapCount === 2) {
+            const date = new Date(); // double tap event handler
+            const year = date.getFullYear();
+            const month = date.getMonth() <= 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+            this.hiddenDatepicker.value = `${year}-${month}`;
+            this.hiddenDatepicker.dispatchEvent(new InputEvent('change'));
+          } else if (this.monthDisplay.tapCount === 1) {
+            this.hiddenDatepicker.focus(); // single tap event handler
+          }
+          this.monthDisplay.tapCount = 0;
+        }, 200);
       });
     }
     this.monthDisplay.innerText = window.stdDateUtil.getYearMonthStr();
@@ -247,11 +262,8 @@ class HeaderUI {
       this.searchInput = document.createElement('input');
       this.searchInput.setAttribute('id', 'search-input');
       this.searchInput.setAttribute('type', 'search');
-      this.searchInput.addEventListener('input', event => {
-        let searchKeywords = event.currentTarget.value;
-        document.dispatchEvent(new CustomEvent('search-keyword-changed', {
-          detail: searchKeywords
-        }));
+      this.searchInput.addEventListener('input', () => {
+        document.dispatchEvent(new CustomEvent('search-keyword-changed'));
       });
     }
 

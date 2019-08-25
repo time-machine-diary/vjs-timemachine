@@ -1,14 +1,13 @@
 class EditorUI {
   constructor() {
     this.writeEditor = document.getElementById('editor');
-    document.addEventListener('page-changed-to-write', this.viewInitialSetup.bind(this));
   }
 
   viewInitialSetup() {
     if(this._focusFlag) {
       setTimeout(() => {
         this.writeEditor.focus();
-      }, 500);
+      }, 100);
     }
   }
 
@@ -18,6 +17,7 @@ class EditorUI {
     this.previousContent = null;
     this.cleareEditor();
     this._focusFlag = true;
+    this.viewInitialSetup();
   }
 
   showContentEditor(diaryInfo) {
@@ -26,6 +26,7 @@ class EditorUI {
     this.previousContent = diaryInfo.diary.content;
     this.writeEditor.value = this.previousContent;
     this._focusFlag = false;
+    this.viewInitialSetup();
   }
 
   cleareEditor() {

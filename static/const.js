@@ -46,7 +46,7 @@
       }
     },
     FILE: {
-      PATH: 'attachments/diaries'
+      PATH: 'diaries'
     },
     SERVER: {
       BASE_URL: 'http://localhost:9100'
@@ -56,7 +56,11 @@
       route: 'setting'
     }],
     APP: {
-      VERSION: 'v1.0.0'
+      VERSION: 'v1.0.0',
+      DEVELOPER: {
+        NAME: 'Jay Lee',
+        CONTACT: 'support@TMDiary.com'
+      }
     },
     INITIAL_VIEWS: [{
       name: '캘린더 보기',
@@ -74,24 +78,15 @@
         '--main-theme-dark': '#990440',
         '--main-theme-deep-dark': '#560022'
       }
-    }, {
-      name: 'dark',
-      description: '어두운',
-      colors: {
-        '--main-theme-color': '#242524',
-        '--main-theme-light': '#4C4E4E',
-        '--main-theme-dark': '#1D1E1E',
-        '--main-theme-deep-dark': '#000000'
-      }
-    }, {
-      name: 'beige',
-      description: '베이지',
-      colors: {
-        '--main-theme-color': '#FFB6BC',
-        '--main-theme-light': '#FFB9C3',
-        '--main-theme-dark': '#C28D95',
-        '--main-theme-deep-dark':'#876166'
-      }
+    // }, {
+    //   name: 'dark',
+    //   description: '어두운',
+    //   colors: {
+    //     '--main-theme-color': '#242524',
+    //     '--main-theme-light': '#4C4E4E',
+    //     '--main-theme-dark': '#1D1E1E',
+    //     '--main-theme-deep-dark': '#000000'
+    //   }
     }],
     LS_KEYS: {
       ALARM_ACTIVE: 'tm.setting.alarm.active',
@@ -114,10 +109,12 @@
       TITLE: {
         REMIND_TITLE: '일기 작성 알림'
       },
+      SUBTITLE: {
+        REMIND_SUBTITLE: ''
+      },
       MESSAGE: {
         REMIND_MESSAGE: '오늘 하루를 타임머신에 기록하세요.'
       },
-      DEFAULT_INTERVAL: 'day',
     },
     NATIVE_STYLE: {
       BTN: {

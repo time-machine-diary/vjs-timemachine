@@ -38,7 +38,7 @@ class CalendarUI {
     this.renderPrevCalendar();
     this.renderNextCalendar();
     this.adjustXScroll();
-    this.markTodayCircle();
+    // this.markTodayCircle();
   }
 
   adjustXScroll() {
@@ -51,7 +51,7 @@ class CalendarUI {
    */
   renderCurrentCalendar() {
     this.clearDateRows(this.calendar);
-    this.renderDateRows(window.stdDateUtil.getDateRange(), this.calendar);
+    this.renderDateRows(window.stdDateUtil.getDateRange(), this.calendar, window.stdDateUtil.date);
     const yearStr = window.stdDateUtil.getYearStr();
     const monthStr = window.stdDateUtil.getMonthStr();
     this.calendar.getYearMonth = function() {
@@ -98,7 +98,7 @@ class CalendarUI {
    * 현재 달력 혹은 지난/다음달 달력으로 스크롤을 이동함
    */
   adjustAnimation() {
-    if(this.calendarContainer.scrollLeft === window.screen.availWidth) {
+    if(this.calendarContainer.scrollLeft === window.screen.availWidth || this.calendarContainer.scrollLeft === this.calendarContainer.clientWidth) {
       return;
     }
 
@@ -107,19 +107,19 @@ class CalendarUI {
 
     if(availWidth - stdWidth >= this.calendarContainer.scrollLeft) {
       // this.showSpinner(`${window.stdDateUtil.getPrevYearMonthStr()}...`);
-      this.showSpinner();
+      // this.showSpinner();
       this.adjustPrevCalendarAnimation();
 
       setTimeout(() => {
-        this.hideSpinner();
+        // this.hideSpinner();
       }, 500);
     } else if (availWidth + stdWidth <= this.calendarContainer.scrollLeft) {
       // this.showSpinner(`${window.stdDateUtil.getNextYearMonthStr()}...`);
-      this.showSpinner();
+      // this.showSpinner();
       this.adjustNextCalendarAnimation();
 
       setTimeout(() => {
-        this.hideSpinner();
+        // this.hideSpinner();
       }, 500);
     } else {
       this.adjustSnapBackCalendarAnimation();
@@ -331,13 +331,22 @@ class CalendarUI {
   /**
    * @description 선택한 연, 월의 날짜 범위를 통해 캘린더를 구성함
    */
-  renderDateRows(dates, container) {
+  renderDateRows(dates, container, dateObj) {
     let dateRow = this.getDateRow();
     dates.forEach(dateValue => {
       let dateCell = this.getDateCell();
       let date = this.getDate(dateValue);
       dateCell.appendChild(date);
       dateRow.appendChild(dateCell);
+
+      if(dateObj && dateValue) {
+        const currentDate = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateValue}`;
+        const todayDate = new Date();
+        const isToday = currentDate === `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`;
+        if(isToday) {
+          dateCell.classList.add('today');
+        }
+      }
 
       if(dateRow.children.length === 7) {
         container.appendChild(dateRow);

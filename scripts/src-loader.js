@@ -67,10 +67,6 @@
             document.dispatchEvent(new CustomEvent('src-imported'));
           }, 1000);
         });
-      } else {
-        scriptTag.addEventListener('load', () => {
-        });
-
       }
 
       document.body.appendChild(scriptTag);

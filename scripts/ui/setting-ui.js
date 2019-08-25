@@ -18,6 +18,8 @@ class SettingUI {
     this.alarmActive = document.getElementById('alarm-active');
     this.alarmTime = document.getElementById('alarm-time');
     this.resetBtn = document.getElementById('reset');
+    this.importBtn = document.getElementById('import');
+    this.exportBtn = document.getElementById('export');
 
     this.setInitValues();
     this.registerEventListeners();
@@ -78,6 +80,8 @@ class SettingUI {
     this.alarmActive.onchange = this.alarmActiveChanged.bind(this);
     this.alarmTime.onchange = this.alarmTimeInputHandler.bind(this);
     this.resetBtn.onclick = this.resetDiary.bind(this);
+    this.importBtn.onclick = this.importDiary.bind(this);
+    this.exportBtn.onclick = this.exportDiary.bind(this);
   }
 
   initAppVersion(appVersion) {
@@ -416,8 +420,8 @@ class SettingUI {
     return this.themeList;
   }
 
-  alarmActiveChanged(event) {
-    const alarmActive = event.currentTarget.checked;
+  alarmActiveChanged() {
+    const alarmActive = this.alarmActive.checked;
 
     if(alarmActive) {
       this.alarmTime.removeAttribute('disabled');
@@ -449,12 +453,16 @@ class SettingUI {
   fireAddAlarmEvent() {
     const alarmTimeArray = this.alarmTime.value.split(':');
     const hour = parseInt(alarmTimeArray[0]); const minute = parseInt(alarmTimeArray[1]);
+    if(isNaN(hour) || isNaN(minute)) {
+      this.alarmActive.checked = false;
+      this.alarmActiveChanged();
+      return;
+    }
 
     document.dispatchEvent(new CustomEvent('alarm-enabled', {
       detail: {
         hour: hour,
-        minute: minute,
-        interval: CONST.NOTIFICATION.DEFAULT_INTERVAL
+        minute: minute
       }
     }));
   }
@@ -473,6 +481,42 @@ class SettingUI {
         type: CONST.NATIVE_STYLE.BTN.DESTRUCTIVE,
         callback: () => {
           document.dispatchEvent(new CustomEvent('reset-diary'));
+        }
+      }, {
+        name: '취소',
+        type: CONST.NATIVE_STYLE.BTN.CANCEL
+      }]
+    });
+  }
+
+  importDiary() {
+    window.ha.openConfirm({
+      title: '불러오기',
+      message: '기기에 저장되어 있는 일기를 불러 옵니다.',
+      type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+      options: [{
+        name: '확인',
+        type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+        callback: () => {
+          document.dispatchEvent(new CustomEvent('import-diary'));
+        }
+      }, {
+        name: '취소',
+        type: CONST.NATIVE_STYLE.BTN.CANCEL
+      }]
+    });
+  }
+
+  exportDiary() {
+    window.ha.openConfirm({
+      title: '내보내기',
+      message: '작성한 일기를 기기에 저장 합니다.',
+      type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
+      options: [{
+        name: '확인',
+        type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+        callback: () => {
+          document.dispatchEvent(new CustomEvent('export-diary'));
         }
       }, {
         name: '취소',

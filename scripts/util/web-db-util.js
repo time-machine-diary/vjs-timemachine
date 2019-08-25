@@ -64,15 +64,14 @@ class WebDBUtil {
   }
 
   selectDiary(data) {
-    let sql = `SELECT * FROM tm_diaries WHERE`;
-    for(const key in data) {
-      if(data[key]) {
-        sql += ` ${key} = '${data[key]}' AND`;
-      }
-    }
+    let sql = `SELECT * FROM tm_diaries WHERE 1=1`;
 
-    if(sql.endsWith('AND')) {
-      sql = sql.slice(0, -4);
+    if(data) {
+      for(const key in data) {
+        if(data[key]) {
+          sql += ` AND ${key} = '${data[key]}'`;
+        }
+      }
     }
 
     return this.doTrx(sql, []);

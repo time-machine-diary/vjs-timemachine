@@ -26,7 +26,8 @@ span#viewer-date-field {
   margin-top: auto; margin-bottom: auto; margin-left: var(--default-space);
   font-weight: 500;
   font-size: var(--default-font-size);
-  color: var(--theme-gray);
+  /* color: var(--theme-gray); */
+  color: var(--theme-dark-gray);
 }
 object#viewer-delete-btn {
   height: 4vh;
@@ -40,7 +41,8 @@ object#viewer-delete-btn polygon {
 
 div#viewer-content img#empty-viewer {
   margin: auto;
-  height: 13vh;
+  height: 7vh;
+  padding: 5vw;
 }
 
 div#viewer-content div#content-viewer {

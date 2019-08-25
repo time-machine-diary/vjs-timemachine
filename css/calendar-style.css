@@ -87,7 +87,8 @@ div.date-cell[selected][assigned] span.date {
 
 div.dates-row span.date {
   margin: auto;
-  color: var(--theme-gray);
+  color: var(--theme-dark-gray);
+  /* color: var(--theme-gray); */
   font-weight: 700;
   font-size: var(--default-font-size);
 }

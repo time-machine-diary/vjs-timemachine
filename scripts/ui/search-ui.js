@@ -68,7 +68,48 @@ class SearchUI {
     const contentSection = this.renderContentSection(preview, keywords);
     dateBlock.appendChild(dateSection);
     dateBlock.appendChild(contentSection);
+    dateBlock.addEventListener('touchstart', event => {
+      const currentScrollTop = this.searchViewContainer.scrollTop;
+      event.currentTarget.timer = setTimeout(() => {
+        if(currentScrollTop === this.searchViewContainer.scrollTop) {
+          this.showDeleteAlert(fileName, date);
+        }
+      }, 500);
+    });
+
+    dateBlock.addEventListener('touchend', event => {
+      if(event.currentTarget.timer) {
+        clearTimeout(event.currentTarget.timer);
+      }
+    });
     return dateBlock;
+  }
+
+  showDeleteAlert(fileName, date) {
+    navigator.vibrate(100);
+    window.ha.openConfirm({
+      title: '일기 삭제',
+      type: CONST.NATIVE_STYLE.ALERT.ACTION,
+      message: '일기를 삭제하시겠습니까?',
+      options: [{
+        name: '삭제',
+        type: CONST.NATIVE_STYLE.BTN.DESTRUCTIVE,
+        callback: () => {
+          fileName = `${fileName.substr(0, fileName.lastIndexOf('-'))}-${date}`;
+          document.dispatchEvent(new CustomEvent('delete-diary', {
+            detail: {
+              fileName: `${fileName}.txt`,
+              callback: () => {
+                document.dispatchEvent(new CustomEvent('search-keyword-changed'));
+              }
+            }
+          }));
+        }
+      }, {
+        name: '취소',
+        type: CONST.NATIVE_STYLE.BTN.CANCEL
+      }]
+    });
   }
 
   renderDateBlock(fileName, date) {

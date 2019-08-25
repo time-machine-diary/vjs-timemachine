@@ -4,12 +4,17 @@ div#list-view {
 
 div#list-view-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex: 1;
-  overflow-x: scroll;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+  /* overflow: hidden; */
+  overflow: auto;
   background-color: var(--theme-light-gray);
+}
+
+div#list-view-container div#prev-list, div#list-view-container div#list, div#list-view-container div#next-list {
+  min-width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 div#list-view-container div.list-item {
@@ -43,6 +48,10 @@ div#list-view-container div.list-item div.date-section {
   border: 1px solid var(--theme-gray);
   border-top-left-radius: var(--default-border-radius);
   border-bottom-left-radius: var(--default-border-radius);
+}
+
+div#list-view-container div.list-item.today div.date-section {
+  border-top: 1px solid var(--main-theme-color); border-bottom: 1px solid var(--main-theme-color); border-left: 1px solid var(--main-theme-color);
 }
 
 div#list-view-container div.list-item div.date-section.sunday {
@@ -84,8 +93,12 @@ div#list-view-container div.list-item div.content-section {
   color: var(--theme-dark-gray);
 }
 
+div#list-view-container div.list-item.today div.content-section {
+  border-top: 1px solid var(--main-theme-color); border-right: 1px solid var(--main-theme-color); border-bottom: 1px solid var(--main-theme-color);
+}
+
 div#list-view-container div.list-item div.content-section div.content{
-  display: grid;
+  display: flex;
   flex: 1;
 }
 

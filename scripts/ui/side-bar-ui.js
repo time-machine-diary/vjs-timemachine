@@ -23,6 +23,8 @@ class SideBarUI {
         this.sideBarContentContainer.appendChild(menuItem);
       }
     });
+
+    this.sideBarContentContainer.appendChild(this.getContactInfo());
   }
 
   clearMenus() {
@@ -51,6 +53,21 @@ class SideBarUI {
       this.closeSideBar();
     });
     return menuItem;
+  }
+
+  getContactInfo() {
+    if(!this.contactInfoContainer) {
+      this.contactInfoContainer = document.createElement('div');
+      this.contactInfoContainer.setAttribute('id', 'contact-info-container');
+      const emailCard =  document.createElement('a');
+      emailCard.setAttribute('href', 'mailto:' + window.CONST.APP.DEVELOPER.CONTACT);
+      emailCard.classList.add('email-card');
+      emailCard.innerHTML = window.CONST.APP.DEVELOPER.CONTACT;
+
+      this.contactInfoContainer.appendChild(emailCard);
+    }
+
+    return this.contactInfoContainer;
   }
 
   toggleSideBar(open) {
