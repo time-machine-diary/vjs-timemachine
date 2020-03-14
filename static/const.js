@@ -98,23 +98,13 @@
             }
           },
           {
-            name: "kakao",
-            description: "Kakao",
+            name: "line",
+            description: "LINE",
             colors: {
-              "--main-theme-color": "#F9DD4A",
-              "--main-theme-light": "#F9DD4A",
-              "--main-theme-dark": "#F9DD4A",
-              "--main-theme-deep-dark": "#F9DD4A"
-            }
-          },
-          {
-            name: "Google",
-            description: "Google",
-            colors: {
-              "--main-theme-color": "#D85040",
-              "--main-theme-light": "#5383EC",
-              "--main-theme-dark": "#58A65C",
-              "--main-theme-deep-dark": "#F1BE42"
+              "--main-theme-color": "#00B900",
+              "--main-theme-light": "#FFFFFF",
+              "--main-theme-dark": "#017D01",
+              "--main-theme-deep-dark": "#045E04"
             }
           }
         ],
