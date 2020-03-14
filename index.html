@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <!-- <meta name="viewport" content="width=device-width, user-scalable=no"> -->
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width, height=device-height, viewport-fit=cover">
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width, height=device-height, viewport-fit=cover"
+    />
 
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Time machine</title>
   </head>
   <body>
-    <div id="starting-page"
+    <div
+      id="starting-page"
       style="position: absolute;
              top: 0px;
              bottom: 0px;
@@ -18,24 +22,28 @@
              z-index: 100;
              display: flex;
              flex-direction: column;
-             background: linear-gradient(to bottom, #BF004D 0%, #560022 70%)">
-      <span style="margin: 4rem auto;
+             background: linear-gradient(to bottom, #BF004D 0%, #560022 70%)"
+    >
+      <span
+        style="margin: 4rem auto;
                     color: var(--theme-white);
                     font-size: var(--medium-font-size);
                     text-align: center;
-                    font-weight: bold;">TIME MACHINE DIARY
+                    font-weight: bold;"
+        >TIME MACHINE DIARY
       </span>
       <object
         type="image/svg+xml"
         data="./assets/images/logo-colored.svg"
         style="margin: 16rem auto;
-               height: var(--blocker-icon-size);">
+               height: var(--blocker-icon-size);"
+      >
       </object>
     </div>
     <div id="container">
       <div id="side-bar" style="display: none;">
         <div id="side-bar-modal"></div>
-        <div id="side-bar-content-container"></div>        
+        <div id="side-bar-content-container"></div>
       </div>
 
       <div id="header">
@@ -73,7 +81,7 @@
         <!-- Calendar View -->
 
         <!-- List View -->
-        <div id="list-view" page="list">         
+        <div id="list-view" page="list">
           <div id="list-view-container">
             <div id="prev-list" class="list"></div>
             <div id="list" class="list"></div>
@@ -92,8 +100,7 @@
 
         <!-- Search View -->
         <div id="search-view" page="search">
-          <div id="search-view-container">
-          </div>
+          <div id="search-view-container"></div>
         </div>
         <!-- Search View -->
 
@@ -101,8 +108,10 @@
         <div id="setting-view" page="setting">
           <div id="setting-view-container">
             <div id="setting-logo-container">
-              <img id="setting-logo-img" src="./assets/images/logo-white.svg">
-              <span id="setting-app-name" class="info-txt">TIME MACHINE DIARY</span>
+              <img id="setting-logo-img" src="./assets/images/logo-white.svg" />
+              <span id="setting-app-name" class="info-txt"
+                >TIME MACHINE DIARY</span
+              >
               <span id="setting-version" class="info-txt"></span>
             </div>
 
@@ -122,9 +131,15 @@
 
                 <div class="option-item">
                   <span class="title">알람</span>
-                  <input id="alarm-time" type="time" value="00:00" step="300" disabled>
-                  <input id="alarm-active" type="checkbox">
-                </div>              
+                  <input
+                    id="alarm-time"
+                    type="time"
+                    value="00:00"
+                    step="300"
+                    disabled
+                  />
+                  <input id="alarm-active" type="checkbox" />
+                </div>
 
                 <div class="empty-item"></div>
 
@@ -142,7 +157,7 @@
                 <div class="option-item activable" id="export">
                   <span class="title">내보내기</span>
                 </div>
-                
+
                 <div class="empty-item"></div>
 
                 <div class="option-item">
@@ -159,7 +174,9 @@
                 </div>
 
                 <div class="empty-item mail-card">
-                  <a href="mailto:support@tm-diary.com">support@tm-diary.com</a>
+                  <a href="mailto:jaylee.possible@gmail.com"
+                    >jaylee.possible@gmail.com</a
+                  >
                 </div>
               </div>
             </div>
@@ -211,7 +228,7 @@
         <!-- Screen Blocker View -->
         <div id="screen-blocker-view" page="screen_blocker">
           <div id="screen-blocker-view-container">
-            <img id="blocker-img" src="./assets/images/logo-colored.svg">
+            <img id="blocker-img" src="./assets/images/logo-colored.svg" />
           </div>
         </div>
         <!-- Screen Blocker View -->
@@ -219,7 +236,7 @@
 
       <!--div id="footer"></div-->
 
-      <input type="month" id="hidden-datepicker" tabindex="-1">
+      <input type="month" id="hidden-datepicker" tabindex="-1" />
       <!--select id="hidden-weather-combo" tabindex="-1">
         <option value="SUNNY">맑음</option>
         <option value="CLOUDY">흐림</option>
