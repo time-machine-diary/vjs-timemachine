@@ -97,8 +97,10 @@ div.empty-item {
 }
 
 input#alarm-time {
-  margin-right: var(--default-space);
   color: var(--font-color-default);
+  background-color: transparent;
+  width: auto;
+  margin: auto;
 }
 
 div.mail-card {

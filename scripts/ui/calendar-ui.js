@@ -4,10 +4,10 @@
  */
 class CalendarUI {
   constructor() {
-    this.calendarContainer = document.getElementById('calendar-container');
-    this.calendar = document.getElementById('calendar');
-    this.prevCalendar = document.getElementById('prev-calendar');
-    this.nextCalendar = document.getElementById('next-calendar');
+    this.calendarContainer = document.getElementById("calendar-container");
+    this.calendar = document.getElementById("calendar");
+    this.prevCalendar = document.getElementById("prev-calendar");
+    this.nextCalendar = document.getElementById("next-calendar");
 
     this.addEventListeners();
   }
@@ -16,7 +16,10 @@ class CalendarUI {
    * @description calendar ui 핸들링을 위한 event listener를 등록
    */
   addEventListeners() {
-    this.calendarContainer.addEventListener('touchend', this.adjustAnimation.bind(this));
+    this.calendarContainer.addEventListener(
+      "touchend",
+      this.adjustAnimation.bind(this)
+    );
   }
 
   /**
@@ -51,7 +54,11 @@ class CalendarUI {
    */
   renderCurrentCalendar() {
     this.clearDateRows(this.calendar);
-    this.renderDateRows(window.stdDateUtil.getDateRange(), this.calendar, window.stdDateUtil.date);
+    this.renderDateRows(
+      window.stdDateUtil.getDateRange(),
+      this.calendar,
+      window.stdDateUtil.date
+    );
     const yearStr = window.stdDateUtil.getYearStr();
     const monthStr = window.stdDateUtil.getMonthStr();
     this.calendar.getYearMonth = function() {
@@ -98,58 +105,39 @@ class CalendarUI {
    * 현재 달력 혹은 지난/다음달 달력으로 스크롤을 이동함
    */
   adjustAnimation() {
-    if(this.calendarContainer.scrollLeft === window.screen.availWidth || this.calendarContainer.scrollLeft === this.calendarContainer.clientWidth) {
+    if (
+      this.calendarContainer.scrollLeft === window.screen.availWidth ||
+      this.calendarContainer.scrollLeft === this.calendarContainer.clientWidth
+    ) {
       return;
     }
 
     const availWidth = window.screen.availWidth;
     const stdWidth = availWidth / 3;
 
-    if(availWidth - stdWidth >= this.calendarContainer.scrollLeft) {
-      // this.showSpinner(`${window.stdDateUtil.getPrevYearMonthStr()}...`);
-      // this.showSpinner();
+    if (availWidth - stdWidth >= this.calendarContainer.scrollLeft) {
       this.adjustPrevCalendarAnimation();
-
-      setTimeout(() => {
-        // this.hideSpinner();
-      }, 500);
     } else if (availWidth + stdWidth <= this.calendarContainer.scrollLeft) {
-      // this.showSpinner(`${window.stdDateUtil.getNextYearMonthStr()}...`);
-      // this.showSpinner();
       this.adjustNextCalendarAnimation();
-
-      setTimeout(() => {
-        // this.hideSpinner();
-      }, 500);
     } else {
       this.adjustSnapBackCalendarAnimation();
     }
   }
 
-  showSpinner(message) {
-    window.spinner.show({
-      message: message
-    });
-  }
-
-  hideSpinner() {
-    window.spinner.hide();
-  }
-
   adjustPrevCalendarAnimation() {
     window.scroller.scrollAnimate(this.calendarContainer, {
-      axis: 'x',
+      axis: "x",
       to: 0,
       duration: 15,
       callback: () => {
-        this.switchPrevCurrent();        
+        this.switchPrevCurrent();
       }
     });
   }
-  
+
   adjustNextCalendarAnimation() {
     window.scroller.scrollAnimate(this.calendarContainer, {
-      axis: 'x',
+      axis: "x",
       to: this.calendarContainer.offsetWidth * 2,
       duration: 15,
       callback: () => {
@@ -157,10 +145,10 @@ class CalendarUI {
       }
     });
   }
-  
+
   adjustSnapBackCalendarAnimation() {
     window.scroller.scrollAnimate(this.calendarContainer, {
-      axis: 'x',
+      axis: "x",
       to: this.calendarContainer.offsetWidth,
       duration: 15
     });
@@ -168,15 +156,18 @@ class CalendarUI {
 
   switchPrevCurrent() {
     this.nextCalendar.remove();
-    this.calendar.setAttribute('id', 'next-calendar');
+    this.calendar.setAttribute("id", "next-calendar");
     this.nextCalendar = this.calendar;
-    this.prevCalendar.setAttribute('id', 'calendar');
+    this.prevCalendar.setAttribute("id", "calendar");
     this.calendar = this.prevCalendar;
     this.nextDateUtil = window.stdDateUtil;
     window.stdDateUtil = this.prevDateUtil;
-    this.prevCalendar = document.createElement('div');
-    this.prevCalendar.setAttribute('id', 'prev-calendar');
-    this.calendarContainer.insertBefore(this.prevCalendar, this.calendarContainer.firstElementChild);
+    this.prevCalendar = document.createElement("div");
+    this.prevCalendar.setAttribute("id", "prev-calendar");
+    this.calendarContainer.insertBefore(
+      this.prevCalendar,
+      this.calendarContainer.firstElementChild
+    );
     this.calendarContainer.scrollLeft = window.screen.availWidth;
     this.renderPrevCalendar();
     this.fireCalendarChangeEvent();
@@ -184,14 +175,14 @@ class CalendarUI {
 
   switchNextCurrent() {
     this.prevCalendar.remove();
-    this.calendar.setAttribute('id', 'prev-calendar');
+    this.calendar.setAttribute("id", "prev-calendar");
     this.prevCalendar = this.calendar;
-    this.nextCalendar.setAttribute('id', 'calendar');
+    this.nextCalendar.setAttribute("id", "calendar");
     this.calendar = this.nextCalendar;
     this.prevDateUtil = window.stdDateUtil;
     window.stdDateUtil = this.nextDateUtil;
-    this.nextCalendar = document.createElement('div');
-    this.nextCalendar.setAttribute('id', 'next-calendar');
+    this.nextCalendar = document.createElement("div");
+    this.nextCalendar.setAttribute("id", "next-calendar");
     this.calendarContainer.appendChild(this.nextCalendar);
     this.calendarContainer.scrollLeft = window.screen.availWidth;
     this.renderNextCalendar(window.stdDateUtil);
@@ -199,7 +190,7 @@ class CalendarUI {
   }
 
   fireCalendarChangeEvent() {
-    document.dispatchEvent(new CustomEvent('date-switched'));
+    document.dispatchEvent(new CustomEvent("date-switched"));
   }
 
   // markToday() {
@@ -209,11 +200,11 @@ class CalendarUI {
   // }
 
   /**
-   * @description 현재 달력의 연도/월이 currentDateUtil의 연도/월과 같을 경우 전달 받은 날짜를 찾아 마킹 
+   * @description 현재 달력의 연도/월이 currentDateUtil의 연도/월과 같을 경우 전달 받은 날짜를 찾아 마킹
    * @param {Object} date DateUtil 객체
    */
   markByDate() {
-    if(this.isSameYearMonth(this.calendar.getYearMonth())) {
+    if (this.isSameYearMonth(this.calendar.getYearMonth())) {
       this.getDateCellByDate(window.currentDateUtil.getDate()).select();
     }
   }
@@ -224,11 +215,11 @@ class CalendarUI {
    */
   markAssigneByDates(dates) {
     this.disassignCell();
-    if(dates && dates.length) {
+    if (dates && dates.length) {
       dates.forEach(date => {
         const dateCell = this.getDateCellByDate(date);
-        dateCell.setAttribute('assigned', '');
-        if(dateCell.hasAttribute('selected')) {
+        dateCell.setAttribute("assigned", "");
+        if (dateCell.hasAttribute("selected")) {
           this.fireReadDiaryEvent();
         }
       });
@@ -248,20 +239,29 @@ class CalendarUI {
     const nextCalendarYearMonth = this.nextCalendar.getYearMonth();
     let dateCell;
 
-    if(currentYearMonth === prevCalendarYearMonth) {
-      dateCell = this.getDateCellByDateFromCalendar(currentDate.getDate(), this.prevCalendar);
+    if (currentYearMonth === prevCalendarYearMonth) {
+      dateCell = this.getDateCellByDateFromCalendar(
+        currentDate.getDate(),
+        this.prevCalendar
+      );
     } else if (currentYearMonth === currentCalendarYearMonth) {
-      dateCell = this.getDateCellByDateFromCalendar(currentDate.getDate(), this.calendar);
+      dateCell = this.getDateCellByDateFromCalendar(
+        currentDate.getDate(),
+        this.calendar
+      );
     } else if (currentYearMonth === nextCalendarYearMonth) {
-      dateCell = this.getDateCellByDateFromCalendar(currentDate.getDate(), this.nextCalendar);
+      dateCell = this.getDateCellByDateFromCalendar(
+        currentDate.getDate(),
+        this.nextCalendar
+      );
     }
 
-    if(dateCell) {
-      if(this.todayCell) {
-        this.todayCell.classList.remove('today');
+    if (dateCell) {
+      if (this.todayCell) {
+        this.todayCell.classList.remove("today");
       }
       this.todayCell = dateCell;
-      this.todayCell.classList.add('today');
+      this.todayCell.classList.add("today");
     }
   }
 
@@ -269,14 +269,16 @@ class CalendarUI {
    * @description 캘린더의 날짜가 선택되면 custom event를 발생시킴
    */
   fireReadDiaryEvent() {
-    const fileName = window.currentDateUtil.getDateFileNameFormat() + '.txt';
+    const fileName = window.currentDateUtil.getDateFileNameFormat() + ".txt";
     // const viewerFileName = viewerUI.getFileName();
     // if(fileName !== viewerFileName) {
-      document.dispatchEvent(new CustomEvent('show-content-viewer', {
+    document.dispatchEvent(
+      new CustomEvent("show-content-viewer", {
         detail: {
           fileName: fileName
         }
-      }));
+      })
+    );
     // }
   }
 
@@ -284,7 +286,9 @@ class CalendarUI {
    * @description 화면에 표시된 모든 date-cell 중 마킹된 셀을 찾아 마킹을 취소함
    */
   disselectCells() {
-    const dateCells = Array.from(this.calendarContainer.querySelectorAll('div.date-cell[selected]'));
+    const dateCells = Array.from(
+      this.calendarContainer.querySelectorAll("div.date-cell[selected]")
+    );
     dateCells.forEach(dateCell => {
       dateCell.disselect();
     });
@@ -294,9 +298,11 @@ class CalendarUI {
    * @description 화면에 표시된 모든 date-cell 중 assigned 셀을 찾아 assigned를 해제함
    */
   disassignCell() {
-    const dateCells = Array.from(this.calendar.querySelectorAll('div.date-cell[assigned]'));
+    const dateCells = Array.from(
+      this.calendar.querySelectorAll("div.date-cell[assigned]")
+    );
     dateCells.forEach(dateCell => {
-      dateCell.removeAttribute('assigned');
+      dateCell.removeAttribute("assigned");
     });
   }
 
@@ -312,7 +318,7 @@ class CalendarUI {
   getDateCellByDateFromCalendar(date, calendarEl) {
     const dateCell = calendarEl.querySelector(`span[date="${date}"]`);
     let parentEl = dateCell.parentElement;
-    while(!parentEl.classList.contains('date-cell')) {
+    while (!parentEl.classList.contains("date-cell")) {
       parentEl = parentEl.parentElement;
     }
     return parentEl;
@@ -322,7 +328,7 @@ class CalendarUI {
    * @description 캘린더 구성에 앞서 모든 date-row를 제거함
    */
   clearDateRows(container) {
-    let dateRows = Array.from(container.querySelectorAll('div.dates-row'));
+    let dateRows = Array.from(container.querySelectorAll("div.dates-row"));
     dateRows.forEach(dateRow => {
       dateRow.remove();
     });
@@ -339,33 +345,37 @@ class CalendarUI {
       dateCell.appendChild(date);
       dateRow.appendChild(dateCell);
 
-      if(dateObj && dateValue) {
-        const currentDate = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateValue}`;
+      if (dateObj && dateValue) {
+        const currentDate = `${dateObj.getFullYear()}-${dateObj.getMonth() +
+          1}-${dateValue}`;
         const todayDate = new Date();
-        const isToday = currentDate === `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`;
-        if(isToday) {
-          dateCell.classList.add('today');
+        const isToday =
+          currentDate ===
+          `${todayDate.getFullYear()}-${todayDate.getMonth() +
+            1}-${todayDate.getDate()}`;
+        if (isToday) {
+          dateCell.classList.add("today");
         }
       }
 
-      if(dateRow.children.length === 7) {
+      if (dateRow.children.length === 7) {
         container.appendChild(dateRow);
         dateRow = this.getDateRow();
       }
     });
 
-    if(dateRow.hasChildNodes()) {
+    if (dateRow.hasChildNodes()) {
       container.appendChild(dateRow);
     }
 
-    while(container.children.length < 6) {
+    while (container.children.length < 6) {
       container.appendChild(this.getEmptyDatesRow());
     }
   }
 
   getEmptyDatesRow() {
-    const emptyDatesRow = document.createElement('div');
-    emptyDatesRow.classList.add('dates-row');
+    const emptyDatesRow = document.createElement("div");
+    emptyDatesRow.classList.add("dates-row");
     // emptyDatesRow.classList.add('empty-dates-row');
     return emptyDatesRow;
   }
@@ -375,8 +385,8 @@ class CalendarUI {
    * @returns {Object} dates-row 엘리먼트
    */
   getDateRow() {
-    let dateRow = document.createElement('div');
-    dateRow.classList.add('dates-row');
+    let dateRow = document.createElement("div");
+    dateRow.classList.add("dates-row");
     return dateRow;
   }
 
@@ -385,10 +395,10 @@ class CalendarUI {
    * @returns {Object} dates-cell 엘리먼트
    */
   getDateCell() {
-    let dateCell = document.createElement('div');
-    dateCell.classList.add('date-cell');
-    dateCell.addEventListener('click', () => {
-      if(dateCell.innerText && dateCell.innerText.length > 0) {
+    let dateCell = document.createElement("div");
+    dateCell.classList.add("date-cell");
+    dateCell.addEventListener("click", () => {
+      if (dateCell.innerText && dateCell.innerText.length > 0) {
         dateCell.select();
       }
     });
@@ -397,10 +407,10 @@ class CalendarUI {
       this.disselectCells();
       dateCell.marking();
       this.changeDateValue(dateCell.getDate());
-      if(dateCell.hasAttribute('assigned')) {
+      if (dateCell.hasAttribute("assigned")) {
         this.fireReadDiaryEvent();
       } else {
-        document.dispatchEvent(new CustomEvent('show-empty-viewer'));
+        document.dispatchEvent(new CustomEvent("show-empty-viewer"));
       }
     };
 
@@ -408,16 +418,16 @@ class CalendarUI {
       const selectedMark = CalendarUI.getSelectedMark();
       dateCell.appendChild(selectedMark);
       dateCell.selectedMark = selectedMark;
-      dateCell.setAttribute('selected', '');
+      dateCell.setAttribute("selected", "");
     };
 
     dateCell.disselect = () => {
-      dateCell.removeAttribute('selected');
+      dateCell.removeAttribute("selected");
       dateCell.removeChild(dateCell.selectedMark);
     };
 
     dateCell.getDate = () => {
-      return dateCell.querySelector('span[date]').getAttribute('date');
+      return dateCell.querySelector("span[date]").getAttribute("date");
     };
 
     return dateCell;
@@ -428,10 +438,10 @@ class CalendarUI {
    * @returns {Object} date 엘리먼트
    */
   getDate(dateValue) {
-    let date = document.createElement('span');
+    let date = document.createElement("span");
     date.innerText = dateValue;
-    date.classList.add('date');
-    date.setAttribute('date', dateValue);
+    date.classList.add("date");
+    date.setAttribute("date", dateValue);
     return date;
   }
 
@@ -444,19 +454,23 @@ class CalendarUI {
    * @description 전달 받은 연월이 현재 연월과 같은지 확인하여 결과를 리턴함
    */
   isSameYearMonth(yearMonth) {
-    return yearMonth === `${window.currentDateUtil.getYearStr()}${window.currentDateUtil.getMonthStr()}`;
+    return (
+      yearMonth ===
+      `${window.currentDateUtil.getYearStr()}${window.currentDateUtil.getMonthStr()}`
+    );
   }
 
   static getSelectedMark() {
-    const object = document.createElement('object');
-    object.setAttribute('type', 'image/svg+xml');
-    object.setAttribute('data', './assets/images/selected-mark.svg');
-    object.addEventListener('load', function() {
-      const themeName = JSON.parse(localStorage.getItem('tm.setting.theme'));
+    const object = document.createElement("object");
+    object.setAttribute("type", "image/svg+xml");
+    object.setAttribute("data", "./assets/images/selected-mark.svg");
+    object.addEventListener("load", function() {
+      const themeName = JSON.parse(localStorage.getItem("tm.setting.theme"));
       const currentTheme = window.CONST.THEMES.filter(theme => {
         return theme.name === themeName;
       })[0];
-      this.contentDocument.getElementById('selected-mark').style.fill = currentTheme.colors['--main-theme-color'];
+      this.contentDocument.getElementById("selected-mark").style.fill =
+        currentTheme.colors["--main-theme-color"];
     });
 
     return object;
