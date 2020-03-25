@@ -102,9 +102,9 @@
             description: "LINE",
             colors: {
               "--main-theme-color": "#00B900",
-              "--main-theme-light": "#FFFFFF",
-              "--main-theme-dark": "#017D01",
-              "--main-theme-deep-dark": "#045E04"
+              "--main-theme-light": "#00F900",
+              "--main-theme-dark": "#009900",
+              "--main-theme-deep-dark": "#006900"
             }
           }
         ],
