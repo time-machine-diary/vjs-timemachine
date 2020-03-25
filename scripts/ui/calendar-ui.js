@@ -16,17 +16,7 @@ class CalendarUI {
    * @description calendar ui 핸들링을 위한 event listener를 등록
    */
   addEventListeners() {
-    this.calendarContainer.addEventListener("scroll", () => {
-      clearTimeout(this.calendarContainer.isScrolling);
-      this.calendarContainer.isScrolling = setTimeout(() => {
-        var interval = setInterval(() => {
-          if (this.calendarContainer.isTouchEnd) {
-            clearInterval(interval);
-            this.adjustAnimation();
-          }
-        }, 50);
-      }, 50);
-    });
+    this.calendarContainer.onscroll = this.onScrollHandler.bind(this);
 
     this.calendarContainer.addEventListener("touchstart", () => {
       this.calendarContainer.isTouchEnd = false;
@@ -34,6 +24,20 @@ class CalendarUI {
     this.calendarContainer.addEventListener("touchend", () => {
       this.calendarContainer.isTouchEnd = true;
     });
+  }
+
+  onScrollHandler() {
+    clearTimeout(this.calendarContainer.isScrolling);
+    this.calendarContainer.isScrolling = setTimeout(() => {
+      this.calendarContainer.onscroll = null;
+      var interval = setInterval(() => {
+        if (this.calendarContainer.isTouchEnd) {
+          clearInterval(interval);
+          this.adjustAnimation();
+          this.calendarContainer.onscroll = this.onScrollHandler.bind(this);
+        }
+      }, 50);
+    }, 50);
   }
 
   /**
