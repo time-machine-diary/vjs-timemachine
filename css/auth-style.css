@@ -10,6 +10,7 @@ div#auth-view-container {
 }
 
 #auth-display {
+  margin-top: 5vh;
   display: flex;
   flex-direction: column;
 }
@@ -73,7 +74,10 @@ div#auth-view-container {
 
 #auth-num-pad .num-pad-container button object {
   position: absolute;
-  left: 0; right: 0; top: 0; bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   margin: auto;
   width: var(--num-pad-size);
   background-color: #fff;

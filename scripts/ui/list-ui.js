@@ -20,24 +20,27 @@ class ListUI {
         (posX >= clientWidth - unitPosX && posX <= clientWidth);
       this._listMovable(isMovable);
       this.listViewContainer.isTouchEnd = false;
-
     });
 
     this.listViewContainer.addEventListener("touchend", () => {
       this.listViewContainer.isTouchEnd = true;
     });
 
-    this.listViewContainer.addEventListener("scroll", () => {
-      clearTimeout(this.listViewContainer.isScrolling);
-      this.listViewContainer.isScrolling = setTimeout(() => {
-        var interval = setInterval(() => {
-          if (this.listViewContainer.isTouchEnd) {
-            clearInterval(interval);
-            this.adjustAnimation();
-          }
-        }, 50);
+    this.listViewContainer.onscroll = this.onScrollHandler.bind(this);
+  }
+
+  onScrollHandler() {
+    clearTimeout(this.listViewContainer.isScrolling);
+    this.listViewContainer.isScrolling = setTimeout(() => {
+      var interval = setInterval(() => {
+        this.listViewContainer.onscroll = null;
+        if (this.listViewContainer.isTouchEnd) {
+          clearInterval(interval);
+          this.adjustAnimation();
+          this.listViewContainer.onscroll = this.onScrollHandler.bind(this);
+        }
       }, 50);
-    });
+    }, 50);
   }
 
   adjustAnimation() {
