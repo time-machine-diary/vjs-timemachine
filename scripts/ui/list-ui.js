@@ -19,30 +19,48 @@ class ListUI {
         (posX >= 0 && posX <= unitPosX) ||
         (posX >= clientWidth - unitPosX && posX <= clientWidth);
       this._listMovable(isMovable);
+      this.listViewContainer.isTouchEnd = false;
+
     });
 
     this.listViewContainer.addEventListener("touchend", () => {
-      // 현재 스크롤이 가장 오른쪽 (window.scroll.availWidth)이거나 가장 왼쪽 (listViewContainer.clientWidth)이라면 return;
-      if (
-        this.listViewContainer.scrollLeft === window.scroll.availWidth ||
-        this.listViewContainer.scrollLeft === this.listViewContainer.clientWidth
-      ) {
-        return;
-      }
-
-      this._listMovable(false);
-
-      const availWidth = window.screen.availWidth;
-      const stdWidth = availWidth / 3;
-
-      if (availWidth - stdWidth >= this.listViewContainer.scrollLeft) {
-        this.adjustPrevListAnimation();
-      } else if (availWidth + stdWidth <= this.listViewContainer.scrollLeft) {
-        this.adjustNextListAnimation();
-      } else {
-        this.adjustSnapBackListAnimation();
-      }
+      this.listViewContainer.isTouchEnd = true;
     });
+
+    this.listViewContainer.addEventListener("scroll", () => {
+      clearTimeout(this.listViewContainer.isScrolling);
+      this.listViewContainer.isScrolling = setTimeout(() => {
+        var interval = setInterval(() => {
+          if (this.listViewContainer.isTouchEnd) {
+            clearInterval(interval);
+            this.adjustAnimation();
+          }
+        }, 50);
+      }, 50);
+    });
+  }
+
+  adjustAnimation() {
+    // 현재 스크롤이 가장 오른쪽 (window.scroll.availWidth)이거나 가장 왼쪽 (listViewContainer.clientWidth)이라면 return;
+    if (
+      this.listViewContainer.scrollLeft === window.scroll.availWidth ||
+      this.listViewContainer.scrollLeft === this.listViewContainer.clientWidth
+    ) {
+      return;
+    }
+
+    this._listMovable(false);
+
+    const availWidth = window.screen.availWidth;
+    const stdWidth = availWidth / 3;
+
+    if (availWidth - stdWidth >= this.listViewContainer.scrollLeft) {
+      this.adjustPrevListAnimation();
+    } else if (availWidth + stdWidth <= this.listViewContainer.scrollLeft) {
+      this.adjustNextListAnimation();
+    } else {
+      this.adjustSnapBackListAnimation();
+    }
   }
 
   _listMovable(isMovable) {
@@ -275,25 +293,25 @@ class ListUI {
     });
   }
 
-  adjustAnimation() {
-    let unitHeight = document.querySelector(".list-item").clientHeight * 2;
-    if (this.listViewContainer.scrollTop < -unitHeight) {
-      window.stdDateUtil.date.setMonth(window.stdDateUtil.date.getMonth() - 1);
-      setTimeout(() => {
-        this.renderLists();
-        this.fireCalendarChangeEvent();
-      }, 500);
-    } else if (
-      this.listViewContainer.scrollTop + this.listViewContainer.clientHeight >
-      this.listViewContainer.scrollHeight + unitHeight
-    ) {
-      window.stdDateUtil.date.setMonth(window.stdDateUtil.date.getMonth() + 1);
-      setTimeout(() => {
-        this.renderLists();
-        this.fireCalendarChangeEvent();
-      }, 500);
-    }
-  }
+  // adjustAnimation() {
+  //   let unitHeight = document.querySelector(".list-item").clientHeight * 2;
+  //   if (this.listViewContainer.scrollTop < -unitHeight) {
+  //     window.stdDateUtil.date.setMonth(window.stdDateUtil.date.getMonth() - 1);
+  //     setTimeout(() => {
+  //       this.renderLists();
+  //       this.fireCalendarChangeEvent();
+  //     }, 500);
+  //   } else if (
+  //     this.listViewContainer.scrollTop + this.listViewContainer.clientHeight >
+  //     this.listViewContainer.scrollHeight + unitHeight
+  //   ) {
+  //     window.stdDateUtil.date.setMonth(window.stdDateUtil.date.getMonth() + 1);
+  //     setTimeout(() => {
+  //       this.renderLists();
+  //       this.fireCalendarChangeEvent();
+  //     }, 500);
+  //   }
+  // }
 
   fireCalendarChangeEvent() {
     document.dispatchEvent(new CustomEvent("date-switched"));
