@@ -130,7 +130,6 @@ class SettingUI {
 
       setTimeout(() => {
         this.settingViews.style.overflowX = "hidden";
-        this.settingView.style.display = "none";
       });
     }, 200);
   }
@@ -149,7 +148,6 @@ class SettingUI {
 
     setTimeout(() => {
       this.settingViews.style.overflowX = "hidden";
-      this.settingView.style.display = "none";
     }, 300);
   }
 
@@ -167,7 +165,6 @@ class SettingUI {
 
     setTimeout(() => {
       this.settingViews.style.overflowX = "hidden";
-      this.settingView.style.display = "none";
     }, 300);
   }
 
@@ -592,7 +589,6 @@ class SettingUI {
   routeBack() {
     // setting 화면의 디테일 화면일 경우 스크롤이 오른쪽으로 이동 했기 때문에
     if (this.settingViews.scrollLeft > 0) {
-      this.settingView.style.display = "initial";
       window.scroller.scrollAnimate(this.settingViews, {
         axis: "x",
         to: 0,
