@@ -596,12 +596,13 @@ const app = {
     let keywords = headerUI.searchInput.value;
     if (!keywords) {
       searchUI.clearSearchList();
+      return;
     }
     keywords = keywords.replace(/\s+/g, "||");
     keywords = keywords.split("||");
-    keywords = keywords.filter(keyword => {
-      return keyword.length > 0;
-    });
+    keywords = keywords
+      .filter(keyword => keyword.length > 0)
+      .filter((keyword, idx) => keywords.indexOf(keyword) === idx);
 
     let sql = `
       SELECT
