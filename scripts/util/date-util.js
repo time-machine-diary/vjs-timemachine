@@ -13,7 +13,7 @@ class DateUtil {
   }
 
   set date(date) {
-    if(this._date !== date) {
+    if (this._date !== date) {
       this._date = date;
     }
   }
@@ -37,7 +37,15 @@ class DateUtil {
    * @returns {Object} date 연, 월, 일, 요일 정보
    */
   getDateObj() {
-    const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+    const days = [
+      "일요일",
+      "월요일",
+      "화요일",
+      "수요일",
+      "목요일",
+      "금요일",
+      "토요일"
+    ];
     return {
       year: this.date.getFullYear(),
       month: this.date.getMonth() + 1,
@@ -48,7 +56,9 @@ class DateUtil {
 
   getPrevYearMonthStr() {
     const dateObj = this.getDateObj();
-    return `${dateObj.year}년 ${dateObj.month - 1 === 0 ? 12 : dateObj.month - 1}월`;
+    return `${dateObj.year}년 ${
+      dateObj.month - 1 === 0 ? 12 : dateObj.month - 1
+    }월`;
   }
 
   getYearMonthStr() {
@@ -58,7 +68,9 @@ class DateUtil {
 
   getNextYearMonthStr() {
     const dateObj = this.getDateObj();
-    return `${dateObj.year}년 ${dateObj.month + 1 === 13 ? 1 : dateObj.month + 1}월`;
+    return `${dateObj.year}년 ${
+      dateObj.month + 1 === 13 ? 1 : dateObj.month + 1
+    }월`;
   }
 
   /**
@@ -115,9 +127,9 @@ class DateUtil {
     let date = new Date(this.date);
     date.setMonth(date.getMonth() + 2);
     date.setDate(0);
-    return date.getDate();    
+    return date.getDate();
   }
-  
+
   /**
    * @description date의 해당 월 첫번째 일 부터 마지막 일 까지를 리턴함 일요일 부터 시작하여 토요일로 끝나며
    * 첫번째 일이 일요일이 아닐 경우 첫번째 일의 요일 까지 공백을 집어 넣어 리턴함 (calendar용도)
@@ -125,16 +137,16 @@ class DateUtil {
    */
   getDateRange() {
     let dateRange = [];
-    if(this.getFirstDay() > 0) {
-      for(let emptyDate = 0; emptyDate < this.getFirstDay(); emptyDate++) {
-        dateRange.push('');
+    if (this.getFirstDay() > 0) {
+      for (let emptyDate = 0; emptyDate < this.getFirstDay(); emptyDate++) {
+        dateRange.push("");
       }
     }
 
-    for(let date = 1; date <= this.getLastDate(); date++) {
+    for (let date = 1; date <= this.getLastDate(); date++) {
       dateRange.push(date);
     }
-    return dateRange;    
+    return dateRange;
   }
 
   getYearStr() {
@@ -159,6 +171,6 @@ class DateUtil {
   isToday() {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
-    return this.date.toJSON() === currentDate.toJSON(); 
+    return this.date.toJSON() === currentDate.toJSON();
   }
 }
