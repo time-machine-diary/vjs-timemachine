@@ -595,7 +595,7 @@ const app = {
     "use strict";
     let keywords = headerUI.searchInput.value;
     if (!keywords) {
-      return;
+      searchUI.clearSearchList();
     }
     keywords = keywords.replace(/\s+/g, "||");
     keywords = keywords.split("||");
