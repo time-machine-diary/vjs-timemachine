@@ -90,6 +90,7 @@ class CalendarUI {
    */
   renderPrevCalendar() {
     const prevDateUtil = new DateUtil(window.stdDateUtil.date);
+    prevDateUtil.date.setDate(1);
     prevDateUtil.date.setMonth(prevDateUtil.date.getMonth() - 1);
     this.prevDateUtil = prevDateUtil;
     this.clearDateRows(this.prevCalendar);
@@ -106,6 +107,7 @@ class CalendarUI {
    */
   renderNextCalendar() {
     const nextDateUtil = new DateUtil(window.stdDateUtil.date);
+    nextDateUtil.date.setDate(1);
     nextDateUtil.date.setMonth(nextDateUtil.date.getMonth() + 1);
     this.nextDateUtil = nextDateUtil;
     this.clearDateRows(this.nextCalendar);
