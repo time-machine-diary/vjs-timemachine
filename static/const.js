@@ -147,6 +147,14 @@
             ACTION: "ACTION"
           }
         },
+        MODAL: {
+          IMG: {
+            PATH:
+              location.origin +
+              location.pathname +
+              "/assets/images/logo-white.svg"
+          }
+        },
         WEATHER: {
           API_KEY: "2b72ced6ffe45e621bfa8b15b56e7082",
           API: "https://api.openweathermap.org/data/2.5/weather",

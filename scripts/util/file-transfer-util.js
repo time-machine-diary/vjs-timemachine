@@ -6,12 +6,6 @@ class FileTransferUtil {
   constructor() {
     this.isMobileAvailable = this.checkAvailability();
     this.platform = this.getCurrentPlatform();
-    if (this.isMobileAvailable) {
-      document.addEventListener(
-        "deviceready",
-        this.storageInitialize.bind(this)
-      );
-    }
   }
 
   checkAvailability() {
@@ -27,6 +21,7 @@ class FileTransferUtil {
   }
 
   storageInitialize() {
+    this.intialized = true;
     const basePath = this.getDocumentDirectoryPath();
     let filePath = this.getFilePath();
     this.getDirEntry(basePath)
@@ -36,7 +31,10 @@ class FileTransferUtil {
         const dirs = filePath.split("/");
         this.createDir(dirEntry, dirs, 0);
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        this.intialized = false;
+        console.error(error);
+      });
   }
 
   getDocumentDirectoryPath() {
@@ -55,6 +53,10 @@ class FileTransferUtil {
 
   readFiles(dirPath, callback) {
     if (this.isMobileAvailable) {
+      if (!this.intialized) {
+        this.storageInitialize();
+      }
+
       this.mobileReadFiles(dirPath, callback);
     } else {
       this.webReadFiles(dirPath, callback);
@@ -89,6 +91,9 @@ class FileTransferUtil {
    */
   readFile(fileName, callback) {
     if (this.isMobileAvailable) {
+      if (!this.intialized) {
+        this.storageInitialize();
+      }
       this.mobileReadFile(fileName, callback);
     } else {
       this.webReadFile(fileName, callback);
@@ -134,6 +139,9 @@ class FileTransferUtil {
    */
   writeFile(fileName, content) {
     if (this.isMobileAvailable) {
+      if (!this.intialized) {
+        this.storageInitialize();
+      }
       this.mobileWriteFile(fileName, content);
     } else {
       this.webWriteFile(fileName, content);
@@ -191,6 +199,9 @@ class FileTransferUtil {
    */
   deleteFile(fileName) {
     if (this.isMobileAvailable) {
+      if (!this.intialized) {
+        this.storageInitialize();
+      }
       this.mobileDeleteFile(fileName);
     } else {
       this.webDeleteFile(fileName);
