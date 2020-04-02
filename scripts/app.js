@@ -1,7 +1,7 @@
 window.stdDateUtil = new DateUtil();
 window.currentDateUtil = new DateUtil();
 window.ha = new HybridAlert();
-window.spinner = new HybridSpinner();
+window.modal = new ModalUtil();
 window.execLogger = new ExecLogger();
 const viewerUI = new ViewerUI();
 const headerUI = new HeaderUI();
@@ -36,7 +36,6 @@ const app = {
     );
     app.changeHiddenPickerValue();
     app.hideSplashScreen();
-    fileTransUtil.storageInitialize();
 
     document.getElementById("starting-page").remove();
   },
@@ -476,12 +475,6 @@ const app = {
 
   refreshDiary: function() {
     "use strict";
-    // window.spinner.showBySec({
-    //   message: `${window.stdDateUtil.getYearMonthStr()}...`
-    // }, 1);
-
-    // window.spinner.showBySec(null, 1);
-
     calendarUI.renderCalendars();
     listUI.renderList();
     headerUI.showCommonHeader();
@@ -650,12 +643,10 @@ const app = {
     const sql = `
       DELETE FROM tm_diaries
     `;
-    window.spinner.show({
-      message: "초기화 진행중..."
-    });
+    window.modal.show(CONST.MODAL.IMG.PATH, "초기화 진행중...");
 
     webDBUtil.doTrx(sql, []).then(() => {
-      window.spinner.hide();
+      window.modal.hide();
       document.dispatchEvent(new CustomEvent("diary-reseted"));
       window.ha.openConfirm({
         title: "완료",
@@ -709,9 +700,10 @@ const app = {
 
               const importNextDiary = function() {
                 idx++;
-                window.spinner.show({
-                  message: `${idx}/${total} 불러오기 진행중...`
-                });
+                window.modal.show(
+                  CONST.MODAL.IMG.PATH,
+                  `${idx}/${total} 불러오기 진행중...`
+                );
                 if (fileEntries[idx]) {
                   const fileName = fileEntries[idx].name;
                   fileTransUtil.readFile(fileName, content => {
@@ -726,7 +718,7 @@ const app = {
                   });
                 } else {
                   document.removeEventListener("diary-saved", importNextDiary);
-                  window.spinner.hide();
+                  window.modal.hide();
                   window.ha.openConfirm({
                     title: "불러오기 완료",
                     type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
@@ -753,9 +745,10 @@ const app = {
                   })
                 );
               });
-              window.spinner.show({
-                message: `${idx}/${total} 불러오기 진행중...`
-              });
+              window.modal.show(
+                CONST.MODAL.IMG.PATH,
+                `${idx}/${total} 불러오기 진행중...`
+              );
             }
           },
           {
@@ -795,13 +788,16 @@ const app = {
       let idx = 0;
       const writeNextDiary = function() {
         idx++;
-        window.spinner.show({ message: `${idx}/${total} 내보내기 진행중...` });
+        window.modal.show(
+          CONST.MODAL.IMG.PATH,
+          `${idx}/${total} 내보내기 진행중...`
+        );
         if (diaries[idx]) {
           fileTransUtil.writeFile(diaries[idx].fileName, diaries[idx].content);
         } else {
           document.removeEventListener("write-file-success", writeNextDiary);
           document.removeEventListener("write-file-error", failWriteDiary);
-          window.spinner.hide();
+          window.modal.hide();
           window.ha.openConfirm({
             title: "내보내기 완료",
             type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
@@ -832,7 +828,10 @@ const app = {
       document.addEventListener("write-file-error", failWriteDiary);
 
       fileTransUtil.writeFile(diaries[idx].fileName, diaries[idx].content);
-      window.spinner.show({ message: `${idx}/${total} 내보내기 진행중...` });
+      window.modal.show(
+        CONST.MODAL.IMG.PATH,
+        `${idx}/${total} 내보내기 진행중...`
+      );
     });
   },
 
