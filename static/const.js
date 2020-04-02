@@ -48,7 +48,7 @@
           }
         },
         FILE: {
-          PATH: "diaries"
+          PATH: "timemachine/diaries"
         },
         SERVER: {
           BASE_URL: "http://localhost:9100"
