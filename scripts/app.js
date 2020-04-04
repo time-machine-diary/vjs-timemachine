@@ -19,7 +19,7 @@ const localNotificationUtil = new LocalNotificationUtil();
 new AuthUI();
 
 const app = {
-  initializeApplication: function() {
+  initializeApplication: function () {
     "use strict";
     app.adjustTheme();
     app.adjustFastClick();
@@ -40,14 +40,14 @@ const app = {
     document.getElementById("starting-page").remove();
   },
 
-  adjustTheme: function() {
+  adjustTheme: function () {
     "use strict";
     let currentTheme = JSON.parse(
       localStorage.getItem(window.CONST.LS_KEYS.THEME)
     );
     currentTheme = currentTheme ? currentTheme : "basic";
 
-    const themeObj = window.CONST.THEMES.filter(theme => {
+    const themeObj = window.CONST.THEMES.filter((theme) => {
       return theme.name === currentTheme;
     })[0];
 
@@ -60,7 +60,7 @@ const app = {
     app.adjustStatusBarColor();
   },
 
-  adjustStatusBarColor: function(color) {
+  adjustStatusBarColor: function (color) {
     "use strict";
     if (location.protocol.indexOf("http") < 0) {
       window.StatusBar.overlaysWebView(false);
@@ -72,13 +72,13 @@ const app = {
     }
   },
 
-  adjustFastClick: function() {
+  adjustFastClick: function () {
     "use strict";
     window.FastClick.attach(document.body);
     window.FastClick.attach(document.body);
   },
 
-  registEventListeners: function() {
+  registEventListeners: function () {
     "use strict";
     document.addEventListener("resume", app.activedHandler);
     document.addEventListener("pause", app.deactivedHandler); //Application is moving to the background
@@ -92,6 +92,7 @@ const app = {
     // document.addEventListener('footer-move-to-calendar', app.showCalendarView);
     // 뒤로가기 버튼 클릭 이벤트 핸들러
     document.addEventListener("route-back", app.routeBack);
+    document.addEventListener("backbutton", app.routeBack);
     // 메뉴 토글 버튼 클릭 이벤트 핸들러
     document.addEventListener("menu-btn-click", app.menuBtnClick);
     // calendar view에서 할당되지 않은 날짜 클릭시 이벤트 핸들러
@@ -111,8 +112,8 @@ const app = {
       document.dispatchEvent(
         new CustomEvent("show-content-viewer", {
           detail: {
-            fileName: window.currentDateUtil.getDateFileNameFormat() + ".txt"
-          }
+            fileName: window.currentDateUtil.getDateFileNameFormat() + ".txt",
+          },
         })
       );
     });
@@ -146,7 +147,7 @@ const app = {
     document.addEventListener("alarm-disabled", app.clearNotification);
   },
 
-  getEntryPoint: function() {
+  getEntryPoint: function () {
     "use strict";
     // 페이지 변경 이벤트 핸들러
     document.addEventListener("page-changed", app.pageChanged);
@@ -164,8 +165,8 @@ const app = {
               } else {
                 location.hash = "calendar";
               }
-            }
-          }
+            },
+          },
         })
       );
 
@@ -182,33 +183,33 @@ const app = {
     return initialView.route;
   },
 
-  scrollToTop: function() {
+  scrollToTop: function () {
     "use strict";
     if (pageUtil.getCurrentPage() === "list") {
       listUI.scrollToTop();
     }
   },
 
-  getMonthDiaryList: function() {
+  getMonthDiaryList: function () {
     "use strict";
     const tmDiary = new TmDiary();
     tmDiary.year = window.stdDateUtil.getYearStr();
     tmDiary.month = window.stdDateUtil.getMonthStr();
     webDBUtil
       .selectDiary(tmDiary.getDataObj())
-      .then(diaries => {
+      .then((diaries) => {
         app.markDiaryList(diaries);
         app.markingCurrentDate();
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   },
 
-  markDiaryList: function(diaries) {
+  markDiaryList: function (diaries) {
     "use strict";
     const page = pageUtil.getCurrentPage();
-    const dates = diaries.map(diary => diary.date);
+    const dates = diaries.map((diary) => diary.date);
     switch (page) {
       case "calendar":
         calendarUI.markAssigneByDates(dates);
@@ -219,20 +220,26 @@ const app = {
     }
   },
 
-  showListView: function() {
+  showListView: function () {
     "use strict";
     location.hash = "list";
   },
 
-  showCalendarView: function() {
+  showCalendarView: function () {
     "use strict";
     location.hash = "calendar";
   },
 
-  routeBack: function() {
+  routeBack: function () {
     "use strict";
     const currentPage = pageUtil.getCurrentPage();
-    if (currentPage === "write") {
+    if (
+      currentPage === "calendar" ||
+      currentPage === "list" ||
+      currentPage === "auth"
+    ) {
+      return;
+    } else if (currentPage === "write") {
       editorUI.saveDiary();
     } else if (currentPage === "setting") {
       settingUI.routeBack();
@@ -241,7 +248,7 @@ const app = {
     }
   },
 
-  pageChanged: function(event) {
+  pageChanged: function (event) {
     "use strict";
     const previousPage = event.detail.previousPage;
     const currentPage = event.detail.currentPage;
@@ -299,13 +306,13 @@ const app = {
           headerUI.showSearchHeader();
           // input event dispatch to re-search diaries after route back to search page
           app.searchByKeyword({
-            detail: headerUI.searchInput.value
+            detail: headerUI.searchInput.value,
           });
         }
         break;
 
       default:
-        const menuInfo = window.CONST.MENUS.find(menu => {
+        const menuInfo = window.CONST.MENUS.find((menu) => {
           return menu.page === currentPage;
         });
 
@@ -323,79 +330,79 @@ const app = {
     }, 250);
   },
 
-  menuBtnClick: function() {
+  menuBtnClick: function () {
     "use strict";
     sideBarUI.toggleSideBar();
   },
 
-  showEmptyViewer: function() {
+  showEmptyViewer: function () {
     "use strict";
     viewerUI.showEmptyViewer();
   },
 
-  showContentViewer: function(event) {
+  showContentViewer: function (event) {
     "use strict";
     const tmDiary = new TmDiary();
     tmDiary.fileName = event.detail.fileName;
     webDBUtil
       .selectDiary(tmDiary.getDataObj())
-      .then(diaries => {
+      .then((diaries) => {
         if (diaries && diaries.length) {
           viewerUI.showContentViewer(diaries[0].content);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   },
 
-  showEmptyEditor: function(event) {
+  showEmptyEditor: function (event) {
     "use strict";
     editorUI.showEmptyEditor({
-      fileName: event.detail.fileName
+      fileName: event.detail.fileName,
     });
   },
 
-  showContentEditor: function(event) {
+  showContentEditor: function (event) {
     "use strict";
     const tmDiary = new TmDiary();
     tmDiary.fileName = event.detail.fileName;
     webDBUtil
       .selectDiary(tmDiary.getDataObj())
-      .then(diaries => {
+      .then((diaries) => {
         editorUI.showContentEditor({
           fileName: event.detail.fileName,
-          diary: diaries[0]
+          diary: diaries[0],
         });
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   },
 
-  showListPreview: function(event) {
+  showListPreview: function (event) {
     "use strict";
     const dateBlock = event.detail.dateBlock;
     const tmDiary = new TmDiary();
     tmDiary.fileName = event.detail.fileName;
     webDBUtil
       .selectDiary(tmDiary.getDataObj())
-      .then(diaries => {
+      .then((diaries) => {
         dateBlock.showDiaryPreview(diaries[0]);
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   },
 
-  saveDiary: function(event) {
+  saveDiary: function (event) {
     "use strict";
     const tmDiary = new TmDiary();
     tmDiary.fileName = event.detail.fileName;
     tmDiary.content = event.detail.content;
     webDBUtil
       .selectDiary({ fileName: tmDiary.fileName })
-      .then(diaries => {
+      .then((diaries) => {
         if (diaries.length) {
           tmDiary.id = diaries[0].id;
           webDBUtil.replaceDiary(tmDiary);
@@ -409,12 +416,12 @@ const app = {
         }
         document.dispatchEvent(new CustomEvent("diary-saved"));
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   },
 
-  deleteDiary: function(event) {
+  deleteDiary: function (event) {
     "use strict";
     webDBUtil
       .deleteDiary(event.detail.fileName)
@@ -429,19 +436,19 @@ const app = {
         }
         document.dispatchEvent(new CustomEvent("diary-deleted"));
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   },
 
-  dateSwitched: function() {
+  dateSwitched: function () {
     "use strict";
     headerUI.showCommonHeader();
     app.changeHiddenPickerValue();
     app.getMonthDiaryList();
   },
 
-  markingCurrentDate: function() {
+  markingCurrentDate: function () {
     "use strict";
     if (calendarUI.calendar.getYearMonth() === viewerUI.getYearMonth()) {
       const dateCell = calendarUI.getDateCellByDate(
@@ -453,7 +460,7 @@ const app = {
     }
   },
 
-  changeHiddenPickerValue: function() {
+  changeHiddenPickerValue: function () {
     "use strict";
     const stdDateObj = window.stdDateUtil.getDateObj();
     const yearStr = stdDateObj.year.toString();
@@ -466,14 +473,14 @@ const app = {
     ).value = `${yearStr}-${monthStr}`;
   },
 
-  hideSplashScreen: function() {
+  hideSplashScreen: function () {
     "use strict";
     if ("splashscreen" in navigator) {
       navigator.splashscreen.hide();
     }
   },
 
-  refreshDiary: function() {
+  refreshDiary: function () {
     "use strict";
     calendarUI.renderCalendars();
     listUI.renderList();
@@ -481,7 +488,7 @@ const app = {
     app.getMonthDiaryList();
   },
 
-  savePwd: function(event) {
+  savePwd: function (event) {
     "use strict";
     webDBUtil
       .deletePwd()
@@ -496,9 +503,9 @@ const app = {
           options: [
             {
               name: "확인",
-              type: CONST.NATIVE_STYLE.BTN.DEFAULT
-            }
-          ]
+              type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+            },
+          ],
         });
       })
       .catch(() => {
@@ -509,39 +516,39 @@ const app = {
           options: [
             {
               name: "확인",
-              type: CONST.NATIVE_STYLE.BTN.DEFAULT
-            }
-          ]
+              type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+            },
+          ],
         });
       });
   },
 
-  deletePwd: function() {
+  deletePwd: function () {
     "use strict";
     webDBUtil.deletePwd();
   },
 
-  checkAuth: function(event) {
+  checkAuth: function (event) {
     "use strict";
     webDBUtil
       .checkAuth(event.detail)
       .then(() => {
         document.dispatchEvent(
           new CustomEvent("auth-checked", {
-            detail: true
+            detail: true,
           })
         );
       })
       .catch(() => {
         document.dispatchEvent(
           new CustomEvent("auth-checked", {
-            detail: false
+            detail: false,
           })
         );
       });
   },
 
-  activedHandler: function() {
+  activedHandler: function () {
     "use strict";
 
     var showPwdPage = JSON.parse(
@@ -559,8 +566,8 @@ const app = {
               } else {
                 history.back();
               }
-            }
-          }
+            },
+          },
         })
       );
     }
@@ -568,14 +575,14 @@ const app = {
     blocker.hide();
   },
 
-  deactivedHandler: function() {
+  deactivedHandler: function () {
     "use strict";
     if (pageUtil.getCurrentPage() !== "auth") {
       blocker.show();
     }
   },
 
-  enterBackgroundHandler: function() {
+  enterBackgroundHandler: function () {
     "use strict";
     if (pageUtil.getCurrentPage() !== "auth") {
       app.showPwdPage = JSON.parse(
@@ -584,7 +591,7 @@ const app = {
     }
   },
 
-  searchByKeyword: function() {
+  searchByKeyword: function () {
     "use strict";
     let keywords = headerUI.searchInput.value;
     if (!keywords) {
@@ -594,7 +601,7 @@ const app = {
     keywords = keywords.replace(/\s+/g, "||");
     keywords = keywords.split("||");
     keywords = keywords
-      .filter(keyword => keyword.length > 0)
+      .filter((keyword) => keyword.length > 0)
       .filter((keyword, idx) => keywords.indexOf(keyword) === idx);
 
     let sql = `
@@ -611,7 +618,7 @@ const app = {
       WHERE
     `;
 
-    keywords.forEach(keyword => {
+    keywords.forEach((keyword) => {
       if (keyword) {
         sql += `
           content like '%${keyword}%' OR
@@ -627,18 +634,18 @@ const app = {
 
     webDBUtil
       .doTrx(sql, [])
-      .then(result => {
+      .then((result) => {
         if (result && result.length >= 0) {
           location.hash = "search";
           searchUI.renderSearchList(result, keywords);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   },
 
-  resetDiary: function() {
+  resetDiary: function () {
     "use strict";
     const sql = `
       DELETE FROM tm_diaries
@@ -660,16 +667,16 @@ const app = {
               location.hash = JSON.parse(
                 localStorage.getItem(window.CONST.LS_KEYS.INITIAL_VIEW)
               ).route;
-            }
-          }
-        ]
+            },
+          },
+        ],
       });
     });
   },
 
-  importDiary: function() {
+  importDiary: function () {
     "use strict";
-    fileTransUtil.readFiles(window.CONST.FILE.PATH, fileEntries => {
+    fileTransUtil.readFiles(window.CONST.FILE.PATH, (fileEntries) => {
       const total = fileEntries.length;
 
       if (total === 0) {
@@ -680,9 +687,9 @@ const app = {
           options: [
             {
               name: "확인",
-              type: CONST.NATIVE_STYLE.BTN.DEFAULT
-            }
-          ]
+              type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+            },
+          ],
         });
         return;
       }
@@ -698,7 +705,7 @@ const app = {
             callback: () => {
               let idx = 0;
 
-              const importNextDiary = function() {
+              const importNextDiary = function () {
                 idx++;
                 window.modal.show(
                   CONST.MODAL.IMG.PATH,
@@ -706,13 +713,13 @@ const app = {
                 );
                 if (fileEntries[idx]) {
                   const fileName = fileEntries[idx].name;
-                  fileTransUtil.readFile(fileName, content => {
+                  fileTransUtil.readFile(fileName, (content) => {
                     document.dispatchEvent(
                       new CustomEvent("save-diary", {
                         detail: {
                           fileName: fileName,
-                          content: content
-                        }
+                          content: content,
+                        },
                       })
                     );
                   });
@@ -726,22 +733,22 @@ const app = {
                     options: [
                       {
                         name: "확인",
-                        type: CONST.NATIVE_STYLE.BTN.DEFAULT
-                      }
-                    ]
+                        type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+                      },
+                    ],
                   });
                 }
               };
 
               document.addEventListener("diary-saved", importNextDiary);
               const fileName = fileEntries[idx].name;
-              fileTransUtil.readFile(fileName, content => {
+              fileTransUtil.readFile(fileName, (content) => {
                 document.dispatchEvent(
                   new CustomEvent("save-diary", {
                     detail: {
                       fileName: fileName,
-                      content: content
-                    }
+                      content: content,
+                    },
                   })
                 );
               });
@@ -749,24 +756,24 @@ const app = {
                 CONST.MODAL.IMG.PATH,
                 `${idx}/${total} 불러오기 진행중...`
               );
-            }
+            },
           },
           {
             name: "취소",
-            type: CONST.NATIVE_STYLE.BTN.CANCEL
-          }
-        ]
+            type: CONST.NATIVE_STYLE.BTN.CANCEL,
+          },
+        ],
       });
     });
   },
 
-  exportDiary: function() {
+  exportDiary: function () {
     "use strict";
     const sql = `
       SELECT fileName, content FROM tm_diaries
     `;
 
-    webDBUtil.doTrx(sql, []).then(diaries => {
+    webDBUtil.doTrx(sql, []).then((diaries) => {
       const total = diaries.length;
 
       if (total === 0) {
@@ -777,16 +784,16 @@ const app = {
           options: [
             {
               name: "확인",
-              type: CONST.NATIVE_STYLE.BTN.DEFAULT
-            }
-          ]
+              type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+            },
+          ],
         });
 
         return;
       }
 
       let idx = 0;
-      const writeNextDiary = function() {
+      const writeNextDiary = function () {
         idx++;
         window.modal.show(
           CONST.MODAL.IMG.PATH,
@@ -805,13 +812,13 @@ const app = {
             options: [
               {
                 name: "확인",
-                type: CONST.NATIVE_STYLE.BTN.DEFAULT
-              }
-            ]
+                type: CONST.NATIVE_STYLE.BTN.DEFAULT,
+              },
+            ],
           });
         }
       };
-      const failWriteDiary = function() {
+      const failWriteDiary = function () {
         window.ha.openConfirm({
           title: "내보내기 실패",
           type: CONST.NATIVE_STYLE.ALERT.DEFAULT,
@@ -819,9 +826,9 @@ const app = {
           options: [
             {
               name: "확인",
-              type: CONST.NATIVE_STYLE.BTN.DESTRUCTIVE
-            }
-          ]
+              type: CONST.NATIVE_STYLE.BTN.DESTRUCTIVE,
+            },
+          ],
         });
       };
       document.addEventListener("write-file-success", writeNextDiary);
@@ -835,7 +842,7 @@ const app = {
     });
   },
 
-  addNotification: function(event) {
+  addNotification: function (event) {
     "use strict";
     const hour = event.detail.hour;
     const minute = event.detail.minute;
@@ -849,7 +856,7 @@ const app = {
       message,
       hour,
       minute,
-      result => {
+      (result) => {
         if (result === "non-granted") {
           window.ha.openConfirm({
             title: "알람 설정 불가",
@@ -862,7 +869,7 @@ const app = {
                 callback: () => {
                   settingUI.alarmActive.checked = false;
                   settingUI.alarmActiveChanged();
-                }
+                },
               },
               {
                 name: "설정",
@@ -871,24 +878,24 @@ const app = {
                   settingUI.alarmActive.checked = false;
                   settingUI.alarmActiveChanged();
                   window.OpenSettingView.open();
-                }
-              }
-            ]
+                },
+              },
+            ],
           });
         }
       },
-      error => {
+      (error) => {
         throw new Error("Failed to add local notification " + error);
       }
     );
   },
 
-  clearNotification: function() {
+  clearNotification: function () {
     "use strict";
-    localNotificationUtil.clearNotification(null, error => {
+    localNotificationUtil.clearNotification(null, (error) => {
       throw new Error("Failed to clear local notification " + error);
     });
-  }
+  },
 };
 
 document.addEventListener("src-imported", app.initializeApplication);
