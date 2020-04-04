@@ -25,6 +25,10 @@ class ModalUtil {
   }
 
   show(thumbnail, label) {
+    if (Boolean(this.modal.getAttribute("active"))) {
+      this.hide();
+    }
+
     if (thumbnail) {
       this.setThumbnail(thumbnail);
     }
@@ -38,6 +42,9 @@ class ModalUtil {
 
   hide() {
     this.modal.style.display = "none";
+    while (this.contentContainer.childElementCount) {
+      this.contentContainer.removeChild(this.contentContainer.firstChild);
+    }
     this.modal.setAttribute("active", false);
   }
 

@@ -12,69 +12,69 @@
             tm_auth: {
               encrypted_pwd: {
                 type: "text",
-                notNull: true
-              }
+                notNull: true,
+              },
             },
             tm_diaries: {
               id: {
                 type: "integer",
-                idField: true
+                idField: true,
               },
               fileName: {
                 type: "text",
-                notNull: true
+                notNull: true,
               },
               year: {
                 type: "text",
-                notNull: true
+                notNull: true,
               },
               month: {
                 type: "text",
-                notNull: true
+                notNull: true,
               },
               date: {
                 type: "text",
-                notNull: true
+                notNull: true,
               },
               preview: {
                 type: "text",
-                notNull: true
+                notNull: true,
               },
               content: {
                 type: "text",
-                notNull: true
-              }
-            }
-          }
+                notNull: true,
+              },
+            },
+          },
         },
         FILE: {
-          PATH: "timemachine/diaries"
+          PATH: "timemachine/diaries",
         },
         SERVER: {
-          BASE_URL: "http://localhost:9100"
+          BASE_URL: "http://localhost:9100",
         },
         MENUS: [
           {
             name: "설정",
-            route: "setting"
-          }
+            route: "setting",
+          },
         ],
         APP: {
           VERSION: "v1.0.0",
           DEVELOPER: {
             NAME: "Jay Lee",
-            CONTACT: "support@TMDiary.com"
-          }
+            CONTACT: "support@TMDiary.com",
+          },
         },
         INITIAL_VIEWS: [
           {
             name: "캘린더 보기",
-            route: "calendar"
+            route: "calendar",
           },
           {
             name: "목록 보기",
-            route: "list"
-          }
+            route: "list",
+          },
         ],
         THEMES: [
           {
@@ -84,8 +84,8 @@
               "--main-theme-color": "#BF004D",
               "--main-theme-light": "#DE463C",
               "--main-theme-dark": "#990440",
-              "--main-theme-deep-dark": "#560022"
-            }
+              "--main-theme-deep-dark": "#560022",
+            },
           },
           {
             name: "dark",
@@ -94,8 +94,8 @@
               "--main-theme-color": "#242524",
               "--main-theme-light": "#4C4E4E",
               "--main-theme-dark": "#1D1E1E",
-              "--main-theme-deep-dark": "#000000"
-            }
+              "--main-theme-deep-dark": "#000000",
+            },
           },
           {
             name: "line",
@@ -104,9 +104,9 @@
               "--main-theme-color": "#00B900",
               "--main-theme-light": "#00F900",
               "--main-theme-dark": "#009900",
-              "--main-theme-deep-dark": "#006900"
-            }
-          }
+              "--main-theme-deep-dark": "#006900",
+            },
+          },
         ],
         LS_KEYS: {
           ALARM_ACTIVE: "tm.setting.alarm.active",
@@ -114,46 +114,43 @@
           INITIAL_VIEW: "tm.setting.initial.view",
           PWD_ACTIVE: "tm.setting.password.active",
           TOUCH_ID_ACTIVE: "tm.setting.touch.id.active",
-          THEME: "tm.setting.theme"
+          THEME: "tm.setting.theme",
         },
         DEPLOY: {
           DEV_MODE: false,
           // SRC_URL: 'http://192.168.0.103:7777'
           // SRC_URL: 'http://192.168.123.153:7777'
-          SRC_URL: "http://192.168.0.5:7777"
+          SRC_URL: "http://192.168.0.5:7777",
         },
         BLOCKER: {
-          BLOCKER_MESSAGE: "TIME MACHINE DIARY"
+          BLOCKER_MESSAGE: "TIME MACHINE DIARY",
         },
         NOTIFICATION: {
           TITLE: {
-            REMIND_TITLE: "일기 작성 알림"
+            REMIND_TITLE: "일기 작성 알림",
           },
           SUBTITLE: {
-            REMIND_SUBTITLE: ""
+            REMIND_SUBTITLE: "",
           },
           MESSAGE: {
-            REMIND_MESSAGE: "오늘 하루를 타임머신에 기록하세요."
-          }
+            REMIND_MESSAGE: "오늘 하루를 타임머신에 기록하세요.",
+          },
         },
         NATIVE_STYLE: {
           BTN: {
             DEFAULT: "DEFAULT",
             CANCEL: "CANCEL",
-            DESTRUCTIVE: "DESTRUCTIVE"
+            DESTRUCTIVE: "DESTRUCTIVE",
           },
           ALERT: {
             DEFAULT: "DEFAULT",
-            ACTION: "ACTION"
-          }
+            ACTION: "ACTION",
+          },
         },
         MODAL: {
           IMG: {
-            PATH:
-              location.origin +
-              location.pathname +
-              "/assets/images/logo-white.svg"
-          }
+            PATH: "./assets/images/logo-white.svg",
+          },
         },
         WEATHER: {
           API_KEY: "2b72ced6ffe45e621bfa8b15b56e7082",
@@ -162,33 +159,33 @@
           CODES: {
             THUNDERSTORM: {
               MIN: 200,
-              MAX: 299
+              MAX: 299,
             },
             DRIZZLE: {
               MIN: 300,
-              MAX: 399
+              MAX: 399,
             },
             RAIN: {
               MIN: 500,
-              MAX: 599
+              MAX: 599,
             },
             SNOW: {
               MIN: 600,
-              MAX: 699
+              MAX: 699,
             },
             ATMOSPHERE: {
               MIN: 700,
-              MAX: 799
+              MAX: 799,
             },
             CLEAR: {
               MIN: 800,
-              MAX: 800
+              MAX: 800,
             },
             CLOUDS: {
               MIN: 801,
-              MAX: 804
-            }
-          }
-        }
+              MAX: 804,
+            },
+          },
+        },
       };
 })();
