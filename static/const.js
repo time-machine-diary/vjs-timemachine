@@ -153,7 +153,7 @@
           },
         },
         WEATHER: {
-          API_KEY: "2b72ced6ffe45e621bfa8b15b56e7082",
+          API_KEY: "YOUR_OWN_API_KEY",
           API: "https://api.openweathermap.org/data/2.5/weather",
           TYPES: ["SUNNY", "CLOUDY", "RAINY", "SNOWY"],
           CODES: {
